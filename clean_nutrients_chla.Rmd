@@ -1,0 +1,68 @@
+---
+title: "reformat_nutrients_chla"
+author: "Catarina Pien"
+date: "1/20/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(lubridate)
+library(tidyverse)
+```
+
+Read in raw
+```{r}
+nuts0 <- read_csv("data_raw/YBFMP_Chla_Nutrients.csv")
+summary(nuts0)
+```
+
+Filter
+```{r}
+nuts <- nuts0 %>%
+  select(-DataOwner, -DataStatus, -LongStationName, -CASReg_Number, -Matrix, -Description, -ResultRejected) %>%
+  filter(!is.na(CollectionDate),
+         !(Analyte%in% c("Field Notes", "Field pH", "Field Weather Observations", "*No Lab Analyses (Field Measures Only)", "Field Water Temperature", "Field Secchi Depth", "Field Chlorophyll Volume", "Field Dissolved Oxygen", "Field Turbidity")))%>%
+  mutate(CollectionDate = mdy_hm(CollectionDate),
+         fMonth = factor(month(CollectionDate)),
+         fYear = factor(year(CollectionDate))) %>%
+  mutate(Sign = ifelse(grepl("<", Result), "<", "="))
+
+# For now make all <RLs RL.
+nuts_noRL <- nuts %>%
+  mutate(Result2 = ifelse(Sign == "<", RptLimit, Result),
+         Result2 = as.numeric(Result2))
+
+
+str(nuts_noRL)
+
+unique(nuts$Analyte)
+```
+
+Flag Outliers?
+```{r}
+chl <- filter(nuts_noRL, Analyte %in% c("Chlorophyll a", "Pheophytin a"))
+nonchl <- filter(nuts_noRL, !Analyte %in% c("Chlorophyll a", "Pheophytin a"))
+
+ggplot(chl,aes(x = fMonth, y = Result2, color = Analyte)) + geom_boxplot() + facet_wrap(~Analyte, scales = "free")
+ggplot(nonchl,aes(x = fMonth, y = Result2, color = Analyte)) + geom_boxplot() + facet_wrap(~Analyte, scales = "free")
+
+
+ggplot(nuts_noRL,aes(x = CollectionDate, y = Result2, color = Analyte)) + geom_point() + facet_wrap(~Analyte)
+
+ggplot(nuts_noRL,aes(x = fMonth, y = Result2, color = Analyte)) + geom_boxplot() + facet_wrap(~Analyte, scales = "free")
+
+ggplot(nuts_noRL,aes(x = fYear, y = Result2, color = Analyte)) + geom_boxplot() + facet_wrap(~Analyte)
+```
+
+Fill in < R.L.
+```{r}
+
+```
+
