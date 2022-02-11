@@ -11,6 +11,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Read in 
 ```{r}
 library(readr)
 library(lubridate)
@@ -28,7 +29,9 @@ station_latlons <- read_csv("data_raw/Stations.csv") %>%
   rename(Station = StationCode)
 ```
 
-Filter nutrients
+Filter and clean nutrients
+- stations of interest, fields of interest
+- rename and remove variables
 ```{r}
 stations_tokeep <- c("A0D82120386",  "B9D82851352", "A0200000")
 
@@ -186,6 +189,8 @@ chla_nuts <- outlier_mod %>%
 ```
 
 check sample numbers, don't want there to be duplicates by datetime/analyte
+- Don't know why there are still duplicates. Probably an unlabeled dup/rep?
+- Pick just the first one of each datetime (slice). 
 ```{r}
 samples <- chla_nuts %>% group_by(Station, Datetime, Analyte) %>%
   mutate(n = n()) %>%
@@ -209,7 +214,7 @@ Rename columns again
 chla_nuts_clean <- chla_nuts_wide %>%
   left_join(station_latlons, by = "Station") %>%
   mutate(Source = "YBFMP") %>%
-  select(Station, Latitude, Longitude, Datetime, Notes,
+  select(Station, Latitude, Longitude, Datetime, Notes, SampleCode,
          Chlorophyll = `Result2_Chlorophyll a`,
          Pheophytin = `Result2_Pheophytin a`,
          DissAmmonia_Sign = `Sign_Dissolved Ammonia`,
@@ -240,9 +245,22 @@ chla_nuts_clean <- chla_nuts_wide %>%
          VSS = `Result2_Volatile Suspended Solids`,
          TKN_Sign = `Sign_Dissolved Total Kjeldahl Nitrogen`,
          TKN = `Result2_Total Kjeldahl Nitrogen`,
-         Year = fYear,
-         StationID = StationNumber,
-         Month = fMonth, 
-         Flag = flag)
+         Year,
+         WY,
+         Month = fMonth,
+         Flag_ChlaNuts = flag)
+```
+
+Select down to columns that are in Sarah's dataset
+```{r}
+chla_nuts_publish <- select(chla_nuts_clean, -DissCalcium_Sign, -DissChloride_Sign, -DOC_Sign, -TOC_Sign, -DON_Sign, -TotPhos_Sign, -DissSilica_Sign, -TDS_Sign, -TSS_Sign, -VSS_Sign, -TKN_Sign)
+
+# Will later need to add Source, MonthYear, StationID (YBFMP + Station), Season
+```
+
+Write cleaned up file to be used later (merged with zooplankton, etc.)
+```{r, eval = FALSE}
+today = format(today(),"%Y%m%d")
+write.csv(chla_nuts_publish, paste0("data_clean/clean_ybfmp_chla_nuts_", today, ".csv"), row.names = FALSE)
 ```
 
