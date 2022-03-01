@@ -11,19 +11,21 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Read in 
+Packages
 ```{r}
 library(readr)
 library(lubridate)
 library(tidyverse)
 require(discretewq)
 library(plotly)
-data <- wq(Sources = "EMP")
 ```
 
 Read in raw
 ```{r}
-# nutrients
+# EMP data, for reference on columns
+emp <- wq(Sources = "EMP")
+
+# nutrients and chlorophyll
 nuts0 <- read_csv("data_raw/YBFMP_Chla_Nutrients.csv")
 station_latlons <- read_csv("data_raw/Stations.csv") %>%
   rename(Station = StationCode)
@@ -156,7 +158,15 @@ shouldbe3 <- c(7985, 4935, 4935)
 shouldbe1 <- c(2062, 2063, 11529, 7274, 8188, 1254, 1294, 1358, 10062,10126, 8895, 7217, 8253) 
 
 outlier_mod <- outlier_vis %>%
-  mutate(flag = ifelse(Index %in% shouldbe3, 3, ifelse(Index %in% shouldbe1 | (Station == "SHR" & Analyte == "Pheophytin a" & Result2 < 10) | (Station %in% c("STTD", "LIS") & Analyte == "Chlorophyll a" & Result2 < 100) | (Station %in% c("STTD", "LIS") & Analyte %in% c("Dissolved Ammonia", "Pheophytin a") & flag == 2), 1, flag)))
+  mutate(flag = ifelse(Index %in% shouldbe3, 3, ifelse(Index %in% shouldbe1 | (Station == "SHR" & Analyte == "Pheophytin a" & Result2 < 10) | (Station %in% c("STTD", "LIS") & Analyte == "Chlorophyll a" & Result2 < 100) | (Station %in% c("STTD", "LIS") & Analyte %in% c("Dissolved Ammonia", "Pheophytin a") & flag == 2), 1, flag))) %>%
+  mutate(flag_comment = ifelse(!is.na(flag) & flag>1, Analyte, NA)) 
+
+# are there samples that are flagged multiple times? 
+check_comments <- outlier_mod %>%
+  filter(!is.na(flag)) %>%
+  group_by(SampleCode) %>%
+  mutate(n = n()) %>%
+  filter(n>1)
 ```
 
 Plot visualized outliers
@@ -203,11 +213,22 @@ chla_nuts_slice <- chla_nuts %>%
   select(-SampleType, -Result, -RptLimit)
 ```
 
-change to wide
+change to wide-v1 (all included)
 ```{r}
-chla_nuts_wide <- chla_nuts_slice %>% pivot_wider(names_from = (Analyte), values_from = c(Result2, Sign))
+chla_nuts_all <- select(chla_nuts_slice, -flag, -flag_comment, -MAD, -Tukey, -Out_vis, -Index)
+chla_nuts_wide <- chla_nuts_all %>% pivot_wider(names_from = (Analyte), values_from = c(Result2, Sign))
 str(chla_nuts_wide)
 ```
+
+
+change to wide -v2 (remove flags of 3)
+```{r}
+chla_nuts_filt <- chla_nuts_slice %>%
+  filter(is.na(flag) | flag <3 ) %>%
+  select(-flag, -flag_comment, -MAD, -Tukey, -Out_vis, -Index)
+chla_nuts_wide_filt <- chla_nuts_filt %>% pivot_wider(names_from = (Analyte), values_from = c(Result2, Sign))
+```
+
 
 Rename columns again
 ```{r}
@@ -247,8 +268,48 @@ chla_nuts_clean <- chla_nuts_wide %>%
          TKN = `Result2_Total Kjeldahl Nitrogen`,
          Year,
          WY,
-         Month = fMonth,
-         Flag_ChlaNuts = flag)
+         Month = fMonth)
+```
+
+Rename columns for flag-filtered dataset
+```{r}
+chla_nuts_clean_filt <- chla_nuts_wide_filt %>%
+  left_join(station_latlons, by = "Station") %>%
+  mutate(Source = "YBFMP") %>%
+  select(Station, Latitude, Longitude, Datetime, Notes, SampleCode,
+         Chlorophyll = `Result2_Chlorophyll a`,
+         Pheophytin = `Result2_Pheophytin a`,
+         DissAmmonia_Sign = `Sign_Dissolved Ammonia`,
+         DissAmmonia = `Result2_Dissolved Ammonia`,
+         DissCalcium_Sign = `Sign_Dissolved Calcium`,
+         DissCalcium = `Result2_Dissolved Calcium`,
+         DissChloride_Sign = `Sign_Dissolved Chloride`,
+         DissChloride = `Result2_Dissolved Chloride`,
+         DissNitrateNitrite_Sign = `Sign_Dissolved Nitrate + Nitrite`,
+         DissNitrateNitrite = `Result2_Dissolved Nitrate + Nitrite`,
+         DOC_Sign = `Sign_Dissolved Organic Carbon`,
+         DOC = `Result2_Dissolved Organic Carbon`,
+         TOC_Sign = `Sign_Total Organic Carbon`,
+         TOC = `Result2_Total Organic Carbon`,
+         DON_Sign = `Sign_Dissolved Organic Nitrogen`,
+         DON = `Result2_Dissolved Organic Nitrogen`,
+         DissOrthophos_Sign = `Sign_Dissolved ortho-Phosphate`,
+         DissOrthophos = `Result2_Dissolved ortho-Phosphate`,
+         TotPhos_Sign = `Sign_Total Phosphorus`,
+         TotPhos = `Result2_Total Phosphorus`,
+         DissSilica_Sign = `Sign_Dissolved Silica (SiO2)`,
+         DissSilica = `Result2_Dissolved Silica (SiO2)`,
+         TDS_Sign = `Sign_Total Dissolved Solids`,
+         TDS = `Result2_Total Dissolved Solids`,
+         TSS_Sign = `Sign_Total Suspended Solids`,
+         TSS = `Result2_Total Suspended Solids`,
+         VSS_Sign = `Sign_Volatile Suspended Solids`,
+         VSS = `Result2_Volatile Suspended Solids`,
+         TKN_Sign = `Sign_Dissolved Total Kjeldahl Nitrogen`,
+         TKN = `Result2_Total Kjeldahl Nitrogen`,
+         Year,
+         WY,
+         Month = fMonth)
 ```
 
 Select down to columns that are in Sarah's dataset
@@ -258,9 +319,19 @@ chla_nuts_publish <- select(chla_nuts_clean, -DissCalcium_Sign, -DissChloride_Si
 # Will later need to add Source, MonthYear, StationID (YBFMP + Station), Season
 ```
 
+Same, but for flag-filtered version
+```{r}
+chla_nuts_filt_publish <- select(chla_nuts_clean_filt, -DissCalcium_Sign, -DissChloride_Sign, -DOC_Sign, -TOC_Sign, -DON_Sign, -TotPhos_Sign, -DissSilica_Sign, -TDS_Sign, -TSS_Sign, -VSS_Sign, -TKN_Sign)
+```
+
 Write cleaned up file to be used later (merged with zooplankton, etc.)
 ```{r, eval = FALSE}
 today = format(today(),"%Y%m%d")
 write.csv(chla_nuts_publish, paste0("data_clean/clean_ybfmp_chla_nuts_", today, ".csv"), row.names = FALSE)
+```
+
+Write filtered version
+```{r}
+write.csv(chla_nuts_filt_publish, paste0("data_clean/clean_ybfmp_chla_nuts_filt_", today, ".csv"), row.names = FALSE)
 ```
 

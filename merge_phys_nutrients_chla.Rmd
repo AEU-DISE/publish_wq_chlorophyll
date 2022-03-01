@@ -3,28 +3,44 @@ title: "combine_phys_nutrients_chla"
 author: "Catarina Pien"
 date: "1/25/2022"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(here)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+Read in data
+```{r}
+chla_nuts <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_20220301.csv")) %>%
+  rename(Datetime_WDL = Datetime)
+wq <- read_csv(here("data_clean", "clean_WQ_phys_20220210.csv")) %>%
+  rename(Datetime_Access = Datetime,
+         Station = StationCode)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Join data
+```{r}
+wq_all <- full_join(wq, chla_nuts, by = c("SampleCode", "Year", "Station", "Month"))
+```
+
+Look for samples that don't match up
+```{r}
+hasSampleID <- wq_all %>%
+  filter(!is.na(SampleCode) & is.na(Datetime_Access))
+
+notjoined <- anti_join(wq, chla_nuts, by = c("SampleCode", "Year", "Station", "Month")) %>%
+  filter(Year>2008)
+
+notjoined2 <- anti_join(chla_nuts, wq, by = c("SampleCode", "Year", "Station", "Month")) %>%
+  filter(Year>2008)
+```
+
