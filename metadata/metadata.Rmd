@@ -1,6 +1,6 @@
 ---
 title: "Interagency Ecological Program: Discrete water quality data from the Sacramento River floodplain and tidal slough, collected by the Yolo Bypass Fish Monitoring Program, 1998 - Present"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -104,7 +104,7 @@ for (i in 1:nrow(cons_df)){
 cres_df %>% 
     select(-element, -middleName) %>% 
     replace(is.na(.), "") %>% 
-    kable()
+    kable(col.names = c("First", "Last", "Org.", "Email", "ORCID", "Role"))
 ```
 
 
@@ -114,7 +114,7 @@ cres_df %>%
 cons_df %>% 
     select(-element, -middleName) %>% 
     replace(is.na(.), "") %>% 
-    kable()
+    kable(col.names = c("First", "Last", "Org.", "Email", "ORCID", "Role"))
 ```
 
 #### Associated Parties
@@ -123,7 +123,7 @@ cons_df %>%
 ap_df %>% 
     select(-element, -middleName) %>% 
     replace(is.na(.), "") %>% 
-    kable()
+    kable(col.names = c("First", "Last", "Org.", "Email", "ORCID", "Role"))
 ```
 
 ## Temporal Coverage
@@ -184,10 +184,70 @@ proj <- eml$project(title = title,
 ```
 
 
+## Water Quality Table
+
+```{r}
+wq <- read.csv("../data_clean/clean_WQ_phys_20220210.csv")
+chla_nuts <- read.csv("../data_clean/clean_ybfmp_chla_nuts_20220301.csv")
+```
+
+```{r}
+wq_atts <- read.csv("wq_atts.csv")
+wq_attlist <- set_attributes(wq_atts)
+```
+
+#### Variables
+
+```{r}
+wq_atts %>% 
+    select(attributeName, attributeDefinition, unit) %>% 
+    kable()
+```
+
+
+```{r}
+wq_dt <- eml$dataTable(entityName = "../data_clean/clean_WQ_phys_20220210.csv",
+                       entityDescription = "water quality data",
+                       attributeList = wq_attlist)
+```
+
+
+## Chlorophyll/Nutrient Table
+
+
+```{r}
+chl_atts <- read.csv("chla_atts.csv") %>% 
+    select(-starts_with("X"))
+chl_attlist <- set_attributes(chl_atts)
+```
+
+#### Variables
+
+```{r}
+chl_atts %>% 
+    select(attributeName, attributeDefinition, unit) %>% 
+    kable()
+```
+
+
+```{r}
+chl_dt <- eml$dataTable(entityName = "../data_clean/clean_ybfmp_chla_nuts_20220301.csv",
+                       entityDescription = "chlorophyll and nutrient data",
+                       attributeList = chl_attlist)
+```
+
+```{r}
+custom_units <- read.csv("custom_units.csv")
+unitlist <- set_unitList(custom_units, as_metadata = TRUE)
+```
+
+
+
 ```{r, results = "hide"}
 doc <- list(
            packageId = "1",
            system = "local", # type of identifier
+           additionalMetadata = unitlist,
            dataset = eml$dataset(title = "Interagency Ecological Program: Discrete water quality data from the Sacramento River floodplain and tidal slough, collected by the Yolo Bypass Fish Monitoring Program, 1998 - Present",
                           abstract = ab,
                           creator = cres,
@@ -196,8 +256,10 @@ doc <- list(
                           methods = methods,
                           coverage = tc,
                           intellectualRights = ir,
-                          project = proj))
+                          project = proj,
+                          dataTable = list(wq_dt, chl_dt)))
 
 write_eml(doc, "metadata.xml")
+eml_validate(doc) # should return TRUE
 ```
 

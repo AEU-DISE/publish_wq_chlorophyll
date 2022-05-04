@@ -1,0 +1,21 @@
+﻿attributeName,measurementScale,domain,unit,numberType,attributeLabel,attributeDefinition,definition,formatString
+SampleCode,nominal,textDomain,NA,NA,NA,sample identifier code,any text,NA
+PhysicalDataID,nominal,textDomain,NA,NA,NA,physical data identifier,any text,NA
+StationCode,nominal,textDomain,NA,NA,NA,station identifier code,any text,NA
+StationNumber,nominal,textDomain,NA,NA,NA,station number,any text,NA
+Datetime,dateTime,dateTimeDomain,NA,NA,NA,date and time of measurement,NA,YYYY-MM-DD hh:mm:ss
+Date,dateTime,dateTimeDomain,NA,NA,NA,date of measurement,NA,YYYY-MM-DD
+Year,dateTime,dateTimeDomain,NA,natural,NA,year of measurement,NA,YYYY
+Month,dateTime,dateTimeDomain,NA,natural,NA,month of measurement,NA,MM
+MonthAbb,dateTime,dateTimeDomain,NA,NA,NA,month abbreviation,NA,mon
+Tide,nominal,textDomain,NA,NA,NA,tide at time of measurement,any text,NA
+Microcystis,nominal,textDomain,NA,NA,NA,visual rating of Microcystis in sampled body,"1 = Microcystis absent , 2 = Low-widely scattered colonies",NA
+Secchi,ratio,numericDomain,meter,real,NA,secchi disk depth,NA,NA
+WaterTemp,interval,numericDomain,celsius,real,NA,water temperature,NA,NA
+Conductivity,ratio,numericDomain,microSeimensPerCentimeter,real,NA,water conductivity,NA,NA
+SpecificConductance,ratio,numericDomain,microSeimensPerCentimeter,real,NA,water specific conductance,NA,NA
+DO,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved oxygen concentration in water,NA,NA
+pH,interval,numericDomain,dimensionless,real,NA,pH value of water,NA,NA
+Turbidity,ratio,numericDomain,nephelometricTurbidityUnit,real,NA,turbidity of water,NA,NA
+Flag_PQC,nominal,textDomain,NA,NA,NA,data flag,"2 = suspicious , 3 = highly suspicious",NA
+Comment_PQC,nominal,textDomain,NA,NA,NA,data comments,any text,NA

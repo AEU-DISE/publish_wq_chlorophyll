@@ -884,9 +884,724 @@ from any use or misinterpretation of the data. Thank you.</p>
 <div id="funding" class="section level2">
 <h2>Funding</h2>
 <p>This project was funded by the State Water Project</p>
-<pre><code>## [1] TRUE
-## attr(,&quot;errors&quot;)
-## character(0)</code></pre>
+</div>
+<div id="water-quality-table" class="section level2">
+<h2>Water Quality Table</h2>
+<div id="variables" class="section level4">
+<h4>Variables</h4>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="48%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">attributeName</th>
+<th align="left">attributeDefinition</th>
+<th align="left">unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SampleCode</td>
+<td align="left">sample identifier code</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">PhysicalDataID</td>
+<td align="left">physical data identifier</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">StationCode</td>
+<td align="left">station identifier code</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">StationNumber</td>
+<td align="left">station number</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Datetime</td>
+<td align="left">date and time of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Date</td>
+<td align="left">date of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Year</td>
+<td align="left">year of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Month</td>
+<td align="left">month of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">MonthAbb</td>
+<td align="left">month abbreviation</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Tide</td>
+<td align="left">tide at time of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Microcystis</td>
+<td align="left">visual rating of Microcystis in sampled body</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Secchi</td>
+<td align="left">secchi disk depth</td>
+<td align="left">meter</td>
+</tr>
+<tr class="odd">
+<td align="left">WaterTemp</td>
+<td align="left">water temperature</td>
+<td align="left">celsius</td>
+</tr>
+<tr class="even">
+<td align="left">Conductivity</td>
+<td align="left">water conductivity</td>
+<td align="left">microSeimensPerCentimeter</td>
+</tr>
+<tr class="odd">
+<td align="left">SpecificConductance</td>
+<td align="left">water specific conductance</td>
+<td align="left">microSeimensPerCentimeter</td>
+</tr>
+<tr class="even">
+<td align="left">DO</td>
+<td align="left">dissolved oxygen concentration in water</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">pH</td>
+<td align="left">pH value of water</td>
+<td align="left">dimensionless</td>
+</tr>
+<tr class="even">
+<td align="left">Turbidity</td>
+<td align="left">turbidity of water</td>
+<td align="left">nephelometricTurbidityUnit</td>
+</tr>
+<tr class="odd">
+<td align="left">Flag_PQC</td>
+<td align="left">data flag</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Comment_PQC</td>
+<td align="left">data comments</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="preview" class="section level4">
+<h4>Preview</h4>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="9%" />
+<col width="5%" />
+<col width="2%" />
+<col width="2%" />
+<col width="4%" />
+<col width="2%" />
+<col width="5%" />
+<col width="3%" />
+<col width="4%" />
+<col width="6%" />
+<col width="9%" />
+<col width="1%" />
+<col width="1%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">SampleCode</th>
+<th align="right">PhysicalDataID</th>
+<th align="left">StationCode</th>
+<th align="left">StationNumber</th>
+<th align="left">Datetime</th>
+<th align="left">Date</th>
+<th align="right">Year</th>
+<th align="right">Month</th>
+<th align="left">MonthAbb</th>
+<th align="left">Tide</th>
+<th align="right">Microcystis</th>
+<th align="right">Secchi</th>
+<th align="right">WaterTemp</th>
+<th align="right">Conductivity</th>
+<th align="right">SpecificConductance</th>
+<th align="right">DO</th>
+<th align="right">pH</th>
+<th align="right">Turbidity</th>
+<th align="right">Flag_PQC</th>
+<th align="left">Comment_PQC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NA</td>
+<td align="right">93</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-02-03 09:13:00</td>
+<td align="left">1998-02-03</td>
+<td align="right">1998</td>
+<td align="right">2</td>
+<td align="left">Feb</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">94</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-02-04 10:30:00</td>
+<td align="left">1998-02-04</td>
+<td align="right">1998</td>
+<td align="right">2</td>
+<td align="left">Feb</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">NA</td>
+<td align="right">95</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-02-11 09:22:00</td>
+<td align="left">1998-02-11</td>
+<td align="right">1998</td>
+<td align="right">2</td>
+<td align="left">Feb</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">9.4</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">96</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-02-17 09:43:00</td>
+<td align="left">1998-02-17</td>
+<td align="right">1998</td>
+<td align="right">2</td>
+<td align="left">Feb</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">10.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">NA</td>
+<td align="right">97</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-02-24 10:03:00</td>
+<td align="left">1998-02-24</td>
+<td align="right">1998</td>
+<td align="right">2</td>
+<td align="left">Feb</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">98</td>
+<td align="left">SHR</td>
+<td align="left">A0200000</td>
+<td align="left">1998-03-04 09:46:00</td>
+<td align="left">1998-03-04</td>
+<td align="right">1998</td>
+<td align="right">3</td>
+<td align="left">Mar</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">11.7</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="chlorophyllnutrient-table" class="section level2">
+<h2>Chlorophyll/Nutrient Table</h2>
+<div id="variables-1" class="section level4">
+<h4>Variables</h4>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="43%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">attributeName</th>
+<th align="left">attributeDefinition</th>
+<th align="left">unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Station</td>
+<td align="left">station identifier</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Latitude</td>
+<td align="left">latitude of station</td>
+<td align="left">degree</td>
+</tr>
+<tr class="odd">
+<td align="left">Longitude</td>
+<td align="left">longitude of station</td>
+<td align="left">degree</td>
+</tr>
+<tr class="even">
+<td align="left">Datetime</td>
+<td align="left">date and time of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Notes</td>
+<td align="left">notes about sample</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">SampleCode</td>
+<td align="left">sample identifier</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Chlorophyll</td>
+<td align="left">chlorophyll concentration</td>
+<td align="left">microgramPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">Pheophytin</td>
+<td align="left">pheophytin concentration</td>
+<td align="left">microgramPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DissAmmonia_Sign</td>
+<td align="left">dissolved ammonia sign</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">DissAmmonia</td>
+<td align="left">dissolved ammonia concentration</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DissCalcium</td>
+<td align="left">dissolved calcium concentration</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">DissChloride</td>
+<td align="left">dissolved chloride concentration</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DissNitrateNitrite_Sign</td>
+<td align="left">dissolved nitrate sign</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">DissNitrateNitrite</td>
+<td align="left">dissolved nitrate concentration</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DOC</td>
+<td align="left">dissolved organic carbon</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">TOC</td>
+<td align="left">total organic carbon</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DON</td>
+<td align="left">dissolved organic nitrogen</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">DissOrthophos_Sign</td>
+<td align="left">dissolved orthophosphate sign</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">DissOrthophos</td>
+<td align="left">dissolved orthophosphate</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">TotPhos</td>
+<td align="left">total phosphate</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">DissSilica</td>
+<td align="left">dissolved silica</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">TDS</td>
+<td align="left">total dissolved solids</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">TSS</td>
+<td align="left">total suspended solids</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">VSS</td>
+<td align="left">volatile suspended solids</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="odd">
+<td align="left">TKN</td>
+<td align="left">total kjedahl nitrogen</td>
+<td align="left">milligramsPerLiter</td>
+</tr>
+<tr class="even">
+<td align="left">Year</td>
+<td align="left">year of measurement</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">WY</td>
+<td align="left">water year</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Month</td>
+<td align="left">month of measurement</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="preview-1" class="section level4">
+<h4>Preview</h4>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+<col width="2%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="6%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="6%" />
+<col width="4%" />
+<col width="2%" />
+<col width="3%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Station</th>
+<th align="right">Latitude</th>
+<th align="right">Longitude</th>
+<th align="left">Datetime</th>
+<th align="left">Notes</th>
+<th align="left">SampleCode</th>
+<th align="right">Chlorophyll</th>
+<th align="right">Pheophytin</th>
+<th align="left">DissAmmonia_Sign</th>
+<th align="right">DissAmmonia</th>
+<th align="right">DissCalcium</th>
+<th align="right">DissChloride</th>
+<th align="left">DissNitrateNitrite_Sign</th>
+<th align="right">DissNitrateNitrite</th>
+<th align="right">DOC</th>
+<th align="right">TOC</th>
+<th align="right">DON</th>
+<th align="left">DissOrthophos_Sign</th>
+<th align="right">DissOrthophos</th>
+<th align="right">TotPhos</th>
+<th align="right">DissSilica</th>
+<th align="right">TDS</th>
+<th align="right">TSS</th>
+<th align="right">VSS</th>
+<th align="right">TKN</th>
+<th align="right">Year</th>
+<th align="right">WY</th>
+<th align="right">Month</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-08-31 15:30:00</td>
+<td align="left">NA</td>
+<td align="left">ESH0812B0037</td>
+<td align="right">10.50</td>
+<td align="right">3.74</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-09-04 18:00:00</td>
+<td align="left">NA</td>
+<td align="left">ESF0912B0004</td>
+<td align="right">6.51</td>
+<td align="right">2.38</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-09-07 09:55:00</td>
+<td align="left">NA</td>
+<td align="left">ESF0912B0033</td>
+<td align="right">4.36</td>
+<td align="right">2.31</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-09-11 10:30:00</td>
+<td align="left">NA</td>
+<td align="left">ESF0912B0045</td>
+<td align="right">5.02</td>
+<td align="right">2.61</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-09-14 09:25:00</td>
+<td align="left">NA</td>
+<td align="left">ESF0912B0069</td>
+<td align="right">6.09</td>
+<td align="right">2.81</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">LIS</td>
+<td align="right">38.47482</td>
+<td align="right">-121.5886</td>
+<td align="left">2012-09-17 10:47:00</td>
+<td align="left">NA</td>
+<td align="left">ESF0912B0081</td>
+<td align="right">7.69</td>
+<td align="right">2.85</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">2012</td>
+<td align="right">2012</td>
+<td align="right">9</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 

@@ -1,0 +1,3 @@
+"id","name","unitType","udunitsSynonym","description","abbreviation","multiplierToSI","deprecatedInFavorOf","parentSI","constantToSI"
+"microSeimensPerCentimeter","microSeimensPerCentimeter","salinity",NA,NA,NA,NA,NA,NA,NA
+"nephelometricTurbidityUnit","nephelometricTurbidityUnit","turbidity",NA,NA,NA,NA,NA,NA,NA

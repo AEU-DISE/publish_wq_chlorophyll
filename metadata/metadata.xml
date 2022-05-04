@@ -147,9 +147,9 @@
     stored in a cooler with ice while being transported to the
     laboratory for filtration. For each sample of chlorophyll a and
     pheophytin a, between 80-500 mL of sample water is passed through a
-    47 mm diameter glass fiber filter with a 1.0 m pore size at a
-    pressure of 10 inches of mercury. After filtration, the filters are
-    immediately frozen and transported to DWR’s Bryte Laboratory for
+    47 mm diameter glass fiber filter with a 1.0 micrometer pore size at
+    a pressure of 10 inches of mercury. After filtration, the filters
+    are immediately frozen and transported to DWR’s Bryte Laboratory for
     analysis within 48 hours of collection (Standard Methods, 19th
     edition).
   </para>
@@ -158,27 +158,27 @@
     organic nitrogen, dissolved calcium, dissolved chloride, total
     dissolved solids, and dissolved silica surface are filtered
     immediately after returning to the laboratory. The samples are
-    filtered through a 0.45 µm pore size mixed cellulous ester membrane
-    filter into one-pint polyethylene bottles, one of the bottles being
-    an actual sample bottle turned into Bryte for analysis and the other
-    being a designated filtration bottle which is rinsed between sites
-    that are being filtered. The filtered water either remains in the
-    one-pint sample bottle or is transferred from the designated
-    filtration bottle to acidified half pint bottles (one with HNO3 and
-    one with H2SO4). All waters samples are stored in the refrigerator
-    and the chlorophyll filter samples are stored in the freezer. All
-    samples are then transported to Bryte Laboratory within 48 hours for
-    analysis.
+    filtered through a 0.45 micrometer pore size mixed cellulous ester
+    membrane filter into one-pint polyethylene bottles, one of the
+    bottles being an actual sample bottle turned into Bryte for analysis
+    and the other being a designated filtration bottle which is rinsed
+    between sites that are being filtered. The filtered water either
+    remains in the one-pint sample bottle or is transferred from the
+    designated filtration bottle to acidified half pint bottles (one
+    with HNO3 and one with H2SO4). All waters samples are stored in the
+    refrigerator and the chlorophyll filter samples are stored in the
+    freezer. All samples are then transported to Bryte Laboratory within
+    48 hours for analysis.
   </para>
           <para>
     Dissolved organic carbon (DOC) samples are filtered using a metal
-    DOC filtration system. The samples are filtered through a 45 µm pore
-    size mixed cellulous ester membrane filter. A glass flask is triple
-    rinsed with DI and then 20-30 mLs of sample water are filtered and
-    used to rinse the flask three times. Water is then filtered and
-    transferred to a 40 ml glass vial that is pre-preserved with
-    phosphoric acid. Please see the YBFMP SOP on Lower Trophic Sample
-    Collection for more details.
+    DOC filtration system. The samples are filtered through a 45
+    micrometer pore size mixed cellulous ester membrane filter. A glass
+    flask is triple rinsed with DI and then 20-30 mLs of sample water
+    are filtered and used to rinse the flask three times. Water is then
+    filtered and transferred to a 40 ml glass vial that is pre-preserved
+    with phosphoric acid. Please see the YBFMP SOP on Lower Trophic
+    Sample Collection for more details.
   </para>
           <para>&lt;emphasis role="strong"&gt;Sample Processing and Tracking&lt;/emphasis&gt;</para>
           <para>&lt;emphasis role="strong"&gt;Sample Tracking&lt;/emphasis&gt;</para>
@@ -233,7 +233,7 @@
     calibration and will use a standard source that is different from
     that used for the initial calibration. Acceptable recovery for
     conventional analytes is 80 - 120% and for inorganic analytes is 90
-    – 110%.
+    - 110%.
   </para>
           <para>
     See Bryte Chemical Laboratory Quality Manual for additional details.
@@ -252,7 +252,7 @@
     sample.
   </para>
           <para>
-    Laboratory Control Samples – Laboratory control samples (LCS)
+    Laboratory Control Samples - Laboratory control samples (LCS)
     provide bias information about a laboratory’s ability to perform
     acceptable analyses on a clean matrix with the chosen methods. The
     LCS will be prepared by the laboratory using an aliquot of the clean
@@ -263,7 +263,7 @@
     actual method recoveries for the target analytes to be acceptable.
   </para>
           <para>
-    Matrix Spikes – Matrix Spikes (MS) provide bias information on
+    Matrix Spikes - Matrix Spikes (MS) provide bias information on
     sample preparation and analysis. MS will be used to verify that the
     lab can determine if the sample matrix is causing either a positive
     or negative bias on sample results. MS samples will be prepared by
@@ -274,7 +274,7 @@
     actual method recoveries for the target analytes to be acceptable.
   </para>
           <para>
-    Matrix Spike Duplicates – Matrix spike duplicates (MSD) provide
+    Matrix Spike Duplicates - Matrix spike duplicates (MSD) provide
     precision information on sample preparation and analysis. The
     laboratory will prepare separate spiked matrix samples (MS) for
     analysis. Acceptable lab results for bias are the same as described
@@ -282,7 +282,7 @@
     25% to be acceptable.
   </para>
           <para>
-    Laboratory Duplicates – Laboratory duplicates provide precision
+    Laboratory Duplicates - Laboratory duplicates provide precision
     information on the analytical methods with the target analytes. The
     laboratory will generate the duplicate samples by splitting one
     sample into two parts, each of which will be analyzed separately.
@@ -338,18 +338,18 @@
           <para>&lt;emphasis role="strong"&gt;Historical Changes&lt;/emphasis&gt;</para>
           <para>&lt;emphasis role="strong"&gt;Methods:&lt;/emphasis&gt;</para>
           <para>
-    From May 2019 until November 2020: 0.45 µm MCE filters used for
-    nutrient filtration (NO2+NO3, O-Phos, NH3, DON) were soaked in DI
-    water for at least 4 hours before use. The water was changed after
-    filters had soaked for an hour, and the hour soaking was repeated a
-    total of 4 times.
+    From May 2019 until November 2020: 0.45 micrometer MCE filters used
+    for nutrient filtration (NO2+NO3, O-Phos, NH3, DON) were soaked in
+    DI water for at least 4 hours before use. The water was changed
+    after filters had soaked for an hour, and the hour soaking was
+    repeated a total of 4 times.
   </para>
           <para>
     11/19/20: Bryte updated preservation methods for some constituents.
     TKN, TPhos, NO2+NO3, O-Phos, NH3, and DON were previously stored in
     unacidified half pint bottles and frozen. The new protocol is to add
-    250 mLs of sample water into a bottle with H2SO4 and to store at
-    5°C.
+    250 mLs of sample water into a bottle with H2SO4 and to store at 5
+    degree C.
   </para>
           <para>
     June 2021- creation of the blank sample water was standardized.
@@ -360,9 +360,9 @@
   </para>
           <para>
     June 2021- the filter used to filter the DOC sampled changed from a
-    combusted 1 µm glass fiber filter to a 0.45 µm MCE filter. Use of a
-    glass filtering flask and a vacuum pump was also added to the DOC
-    filtering protocol.
+    combusted 1 micrometer glass fiber filter to a 0.45 micrometer MCE
+    filter. Use of a glass filtering flask and a vacuum pump was also
+    added to the DOC filtering protocol.
   </para>
           <para>
     October 2021- water grabs in the field are now standardized to use
@@ -407,5 +407,647 @@
         <para>State Water Project</para>
       </funding>
     </project>
+    <dataTable>
+      <entityName>../data_clean/clean_WQ_phys_20220210.csv</entityName>
+      <entityDescription>water quality data</entityDescription>
+      <attributeList>
+        <attribute>
+          <attributeName>SampleCode</attributeName>
+          <attributeDefinition>sample identifier code</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>PhysicalDataID</attributeName>
+          <attributeDefinition>physical data identifier</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>StationCode</attributeName>
+          <attributeDefinition>station identifier code</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>StationNumber</attributeName>
+          <attributeDefinition>station number</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Datetime</attributeName>
+          <attributeDefinition>date and time of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD hh:mm:ss</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Date</attributeName>
+          <attributeDefinition>date of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Year</attributeName>
+          <attributeDefinition>year of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Month</attributeName>
+          <attributeDefinition>month of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>MonthAbb</attributeName>
+          <attributeDefinition>month abbreviation</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>mon</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Tide</attributeName>
+          <attributeDefinition>tide at time of measurement</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Microcystis</attributeName>
+          <attributeDefinition>visual rating of Microcystis in sampled body</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>1 = Microcystis absent , 2 = Low-widely scattered colonies</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Secchi</attributeName>
+          <attributeDefinition>secchi disk depth</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>meter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>WaterTemp</attributeName>
+          <attributeDefinition>water temperature</attributeDefinition>
+          <measurementScale>
+            <interval>
+              <unit>
+                <standardUnit>celsius</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </interval>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Conductivity</attributeName>
+          <attributeDefinition>water conductivity</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microSeimensPerCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>SpecificConductance</attributeName>
+          <attributeDefinition>water specific conductance</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microSeimensPerCentimeter</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DO</attributeName>
+          <attributeDefinition>dissolved oxygen concentration in water</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>pH</attributeName>
+          <attributeDefinition>pH value of water</attributeDefinition>
+          <measurementScale>
+            <interval>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </interval>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Turbidity</attributeName>
+          <attributeDefinition>turbidity of water</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>nephelometricTurbidityUnit</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Flag_PQC</attributeName>
+          <attributeDefinition>data flag</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>2 = suspicious , 3 = highly suspicious</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Comment_PQC</attributeName>
+          <attributeDefinition>data comments</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+    </dataTable>
+    <dataTable>
+      <entityName>../data_clean/clean_ybfmp_chla_nuts_20220301.csv</entityName>
+      <entityDescription>chlorophyll and nutrient data</entityDescription>
+      <attributeList>
+        <attribute>
+          <attributeName>Station</attributeName>
+          <attributeDefinition>station identifier</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Latitude</attributeName>
+          <attributeDefinition>latitude of station</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Longitude</attributeName>
+          <attributeDefinition>longitude of station</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Datetime</attributeName>
+          <attributeDefinition>date and time of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-HH hh:mm:ss</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Notes</attributeName>
+          <attributeDefinition>notes about sample</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>SampleCode</attributeName>
+          <attributeDefinition>sample identifier</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Chlorophyll</attributeName>
+          <attributeDefinition>chlorophyll concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>microgramPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Pheophytin</attributeName>
+          <attributeDefinition>pheophytin concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>microgramPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissAmmonia_Sign</attributeName>
+          <attributeDefinition>dissolved ammonia sign</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>comparison operators</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissAmmonia</attributeName>
+          <attributeDefinition>dissolved ammonia concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissCalcium</attributeName>
+          <attributeDefinition>dissolved calcium concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissChloride</attributeName>
+          <attributeDefinition>dissolved chloride concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissNitrateNitrite_Sign</attributeName>
+          <attributeDefinition>dissolved nitrate sign</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>comparison operators</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissNitrateNitrite</attributeName>
+          <attributeDefinition>dissolved nitrate concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DOC</attributeName>
+          <attributeDefinition>dissolved organic carbon</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>TOC</attributeName>
+          <attributeDefinition>total organic carbon</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DON</attributeName>
+          <attributeDefinition>dissolved organic nitrogen</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissOrthophos_Sign</attributeName>
+          <attributeDefinition>dissolved orthophosphate sign</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>comparison operators</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissOrthophos</attributeName>
+          <attributeDefinition>dissolved orthophosphate</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>TotPhos</attributeName>
+          <attributeDefinition>total phosphate</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>DissSilica</attributeName>
+          <attributeDefinition>dissolved silica</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>TDS</attributeName>
+          <attributeDefinition>total dissolved solids</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>natural</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>TSS</attributeName>
+          <attributeDefinition>total suspended solids</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>VSS</attributeName>
+          <attributeDefinition>volatile suspended solids</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>TKN</attributeName>
+          <attributeDefinition>total kjedahl nitrogen</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>milligramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Year</attributeName>
+          <attributeDefinition>year of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>WY</attributeName>
+          <attributeDefinition>water year</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>Month</attributeName>
+          <attributeDefinition>month of measurement</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+    </dataTable>
   </dataset>
+  <additionalMetadata>
+    <metadata>
+      <unitList>
+        <unit id="microSeimensPerCentimeter" name="microSeimensPerCentimeter" unitType="salinity"/>
+        <unit id="nephelometricTurbidityUnit" name="nephelometricTurbidityUnit" unitType="turbidity"/>
+      </unitList>
+    </metadata>
+  </additionalMetadata>
 </eml:eml>
