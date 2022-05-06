@@ -1,0 +1,56 @@
+---
+title: "Clean Phytoplankton Data"
+author: "Jeanette Clark"
+date: '2022-05-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(readxl)
+library(janitor)
+library(summarytools)
+library(dplyr)
+library(knitr)
+library(stringr)
+
+st_options(use.x11 = FALSE)
+```
+
+
+do some quick checks for us that the columns are formatted correctly (e.g. numeric ones only contain numeric and NA), anything that seems categorical doesn't have mis-spellings or differences in how things are categorized (maybe that is what you mean by clean up column names?)
+
+multiple the Factor column by the Unit Abundance 
+
+ try and join the wq data (like the temp and salinity and all that) using datetime/station to the phytoplankton such that you can bring over the PhysicalDataID (which is the ID in wq table that will connect to all the other tables later)
+ 
+ d create a file of ones that don't match
+
+```{r}
+phy <- read_excel("data_raw/phyto_data_raw.xlsx", guess_max = 12359, sheet = 2, na = c("", "n/a", "NA")) %>% 
+    clean_names() %>% 
+    mutate(organisims_per_ml = factor * unit_abundance) %>% 
+    mutate(sample_time = as.character(sample_time)) %>% 
+    mutate(sample_time = str_extract(sample_time, "[0-9]{2}:[0-9]{2}:[0-9]{2}$")) %>% 
+    mutate(colony_filament_individual_group_code = tolower(colony_filament_individual_group_code)) %>% 
+    mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "7.4", NA, colony_filament_individual_group_code)) %>% 
+    mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "c3", "c", colony_filament_individual_group_code))
+```
+
+
+
+```{r, results = "asis"}
+st_options(bootstrap.css = FALSE, 
+           dfSummary.silent = TRUE)
+st_css()
+
+print(dfSummary(phy,
+          valid.col = FALSE,  
+          plain.ascii = FALSE, 
+          graph.magnif = 0.75,
+          style = "grid"), method = "render")
+```
+
