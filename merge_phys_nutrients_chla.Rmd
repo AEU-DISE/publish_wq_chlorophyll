@@ -22,6 +22,8 @@ Read in data
 ```{r}
 chla_nuts <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_20220301.csv")) %>%
   rename(Datetime_WDL = Datetime)
+chla_nuts_filt <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_filt_20220301.csv")) %>%
+  rename(Datetime_WDL = Datetime)
 wq <- read_csv(here("data_clean", "clean_WQ_phys_20220210.csv")) %>%
   rename(Datetime_Access = Datetime,
          Station = StationCode)

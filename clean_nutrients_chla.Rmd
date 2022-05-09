@@ -213,9 +213,21 @@ chla_nuts_slice <- chla_nuts %>%
   select(-SampleType, -Result, -RptLimit)
 ```
 
+
+```{r}
+chla_nuts_wide_test <- chla_nuts_all %>% 
+  mutate(flag_name = paste0("flag_", Analyte),
+         sign_name = paste0("sign_", Analyte),
+         flag_label = "flag")%>%
+  pivot_wider(
+    names_from = c(Analyte),
+    id_cols = c(SampleCode, Station, StationNumber, fWY, Datetime, fMonth),
+    values_from = c(Result2, flag, Sign)) 
+```
+
 change to wide-v1 (all included)
 ```{r}
-chla_nuts_all <- select(chla_nuts_slice, -flag, -flag_comment, -MAD, -Tukey, -Out_vis, -Index)
+chla_nuts_all <- select(chla_nuts_slice, -flag_comment, -MAD, -Tukey, -Out_vis, -Index)
 chla_nuts_wide <- chla_nuts_all %>% pivot_wider(names_from = (Analyte), values_from = c(Result2, Sign))
 str(chla_nuts_wide)
 ```
