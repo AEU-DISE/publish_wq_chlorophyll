@@ -4,9 +4,15 @@ The Yolo Bypass Fish Monitoring Program (YBFMP) operates a rotary screw trap and
 2.	Analyze and communicate Yolo Bypass data with stakeholders and the scientific and management communities to address pertinent management related questions. 
 3.	Provide technical expertise on Yolo Bypass aquatic ecology and monitoring and sampling methods.
 
-Specifically, the objectives of the water quality monitoring are to: 
+The objectives of the water quality monitoring are to: 
 
 1.	Examine spatial and temporal trends in water quality.
 2.	Examine the relationship between water quality and biological observations. 
 
-We sample physical water quality discretely when conducting biological monitoring using a YSI ProDSS. Nutrient and chlorophyll data are taken biweekly along with lower trophic tows. Water is sampled at three sites along the Yolo Bypass and Sacramento River, then processed and analyzed by an internal DWR laboratory. 
+The objectives of the phytoplankton monitoring are to:
+
+1.	Examine spatial and temporal trends in phytoplankton productivity in the Yolo Bypass.
+2.	Examine relationships between abiotic conditions, phytoplankton, zooplankton, and fish populations in the Yolo Bypass.
+3.	Determine the impacts of water project operations, agricultural uses, and restoration projects in the Yolo Bypass floodplain. 
+
+We sample physical water quality discretely when conducting biological monitoring using a YSI ProDSS. We sample phytoplankton as discrete water samples along with nutrient and chlorophyll data taken biweekly along with lower trophic tows (sites SHR and STTD only). Water is sampled at three sites along the Yolo Bypass and Sacramento River, then processed and analyzed by an internal DWR laboratory. 
