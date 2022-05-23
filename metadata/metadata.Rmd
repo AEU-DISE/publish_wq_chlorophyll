@@ -156,7 +156,8 @@ tc <- set_coverage(beginDate = 2011,
 ## Methods
 
 ```{r}
-    methods <- set_methods("methods.md")
+    methods <- scan("methods.md", what = "text", sep = "\r") %>% 
+    paste(collapse = "\n")
 ```
 
 
@@ -253,7 +254,7 @@ doc <- list(
                           creator = cres,
                           contact = cons,
                           associatedParty = aps,
-                          methods = methods,
+                          methods = list(methodStep = list(description = list(markdown = methods))),
                           coverage = tc,
                           intellectualRights = ir,
                           project = proj,
