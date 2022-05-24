@@ -1,6 +1,10 @@
 ---
-title: "Interagency Ecological Program: Discrete water quality data from the Sacramento River floodplain and tidal slough, collected by the Yolo Bypass Fish Monitoring Program, 1998 - Present"
-output: pdf_document
+title: 'Interagency Ecological Program: Discrete water quality data from the Sacramento
+  River floodplain and tidal slough, collected by the Yolo Bypass Fish Monitoring
+  Program, 1998 - Present'
+output:
+  word_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -52,7 +56,7 @@ for (i in 1:nrow(cres_df)){
     cres[[i]] <- eml$creator(individualName = eml$individualName(givenName = cres_df$givenName[i],
                                                                  surName = cres_df$surName[i]),
                              organizationName = cres_df$organization[i],
-                             electronicMailAddress = cres_df$organization[i])
+                             electronicMailAddress = cres_df$electronicMailAddress[i])
     
     if (!is.na(cres_df$orcid[i])){
         cres[[i]]$userId <-list(directory = "orcid", userId = paste0("https://orcid.org/", cres_df$orcid[i]))
@@ -68,7 +72,7 @@ for (i in 1:nrow(cons_df)){
     cons[[i]] <- eml$creator(individualName = eml$individualName(givenName = cons_df$givenName[i],
                                                                  surName = cons_df$surName[i]),
                              organizationName = cons_df$organization[i],
-                             electronicMailAddress = cons_df$organization[i])
+                             electronicMailAddress = cons_df$electronicMailAddress[i])
     
     if (!is.na(cons_df$orcid[i])){
         cons[[i]]$userId <-list(directory = "orcid", userId = paste0("https://orcid.org/", cons_df$orcid[i]))
@@ -82,10 +86,10 @@ ap_df <- people %>%
 
 aps <- list()
 for (i in 1:nrow(cons_df)){
-    aps[[i]] <- eml$creator(individualName = eml$individualName(givenName = ap_df$givenName[i],
+    aps[[i]] <- eml$associatedParty(individualName = eml$individualName(givenName = ap_df$givenName[i],
                                                                  surName = ap_df$surName[i]),
                              organizationName = ap_df$organization[i],
-                             electronicMailAddress = ap_df$organization[i])
+                             electronicMailAddress = ap_df$electronicMailAddress[i])
     
     if (!is.na(ap_df$orcid[i])){
         aps[[i]]$userId <-list(directory = "orcid", userId = paste0("https://orcid.org/", ap_df$orcid[i]))
@@ -156,7 +160,7 @@ tc <- set_coverage(beginDate = 2011,
 ## Methods
 
 ```{r}
-    methods <- scan("methods.md", what = "text", sep = "\r") %>% 
+methods <- scan("methods.md", what = "text", sep = "\r") %>% 
     paste(collapse = "\n")
 ```
 

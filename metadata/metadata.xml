@@ -13,7 +13,7 @@
         <surName>Kwan</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>Nicole.kwan@water.ca.gov</electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0003-1178-7788</userId>
     </creator>
     <creator>
@@ -22,7 +22,7 @@
         <surName>Bedwell</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>mallory.bedwell@water.ca.gov</electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0001-9553-6032</userId>
     </creator>
     <associatedParty>
@@ -31,7 +31,7 @@
         <surName>Kwan</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>Nicole.Kwan@water.ca.gov </electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0003-1178-7788</userId>
       <role>Creator, Associate, Data contact, Field crew</role>
     </associatedParty>
@@ -41,7 +41,7 @@
         <surName>Adams</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>Jesse.Adams@water.ca.gov </electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0002-0739-8782</userId>
       <role>Field crew</role>
     </associatedParty>
@@ -117,7 +117,7 @@
         <surName>Kwan</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>Nicole.kwan@water.ca.gov</electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0003-1178-7788</userId>
     </contact>
     <contact>
@@ -126,7 +126,7 @@
         <surName>Bedwell</surName>
       </individualName>
       <organizationName>California Department of Water Resources</organizationName>
-      <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+      <electronicMailAddress>mallory.bedwell@water.ca.gov</electronicMailAddress>
       <userId directory="orcid">https://orcid.org/0000-0001-9553-6032</userId>
     </contact>
     <methods>
@@ -242,7 +242,7 @@ AEU:	DWR-6-SOP-015_v1.7_LowerTrophicSampleCollection
           <surName>Kwan</surName>
         </individualName>
         <organizationName>California Department of Water Resources</organizationName>
-        <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+        <electronicMailAddress>Nicole.Kwan@water.ca.gov </electronicMailAddress>
         <userId directory="orcid">https://orcid.org/0000-0003-1178-7788</userId>
         <role>Creator, Associate, Data contact, Field crew</role>
       </personnel>
@@ -252,7 +252,7 @@ AEU:	DWR-6-SOP-015_v1.7_LowerTrophicSampleCollection
           <surName>Adams</surName>
         </individualName>
         <organizationName>California Department of Water Resources</organizationName>
-        <electronicMailAddress>California Department of Water Resources</electronicMailAddress>
+        <electronicMailAddress>Jesse.Adams@water.ca.gov </electronicMailAddress>
         <userId directory="orcid">https://orcid.org/0000-0002-0739-8782</userId>
         <role>Field crew</role>
       </personnel>
