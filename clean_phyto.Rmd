@@ -54,40 +54,36 @@ print(dfSummary(phy,
           style = "grid"), method = "render")
 ```
 
-try and join the wq data (like the temp and salinity and all that) using datetime/station to the phytoplankton such that you can bring over the PhysicalDataID (which is the ID in wq table that will connect to all the other tables later) and create a file of ones that don't match
-
-```{r}
-station_main <- read_csv("data_raw/YBFMP_Stations_Coordinates_Info_20200716.csv", show_col_types = F) %>% 
-    clean_names() %>% 
-    rename(station_code = station_name) %>% 
-    select(station_code, station_number, latitude, longitude)
-
-
-phy_stations <- phy %>%
-    left_join(station_main) %>% # we don't really actually need this
-    distinct(sample_date, station_code, station_number, latitude, longitude, datetime)
-
-```
-
-```{r}
-kable(anti_join(distinct(phy, station_code), station_main))
-```
-
-
 
 ```{r}
 wq_ids <- read_csv("data_clean/clean_WQ_phys_20220210.csv", show_col_types = F) %>% 
     clean_names() %>% 
     mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
-    distinct(physical_data_id, station_code, station_number, datetime) %>% 
-    mutate(sample_date = as.Date(datetime))
+    mutate(sample_date = as.Date(datetime)) %>% 
+    distinct(sample_date, datetime, station_code, physical_data_id)
 
-# get combinations of datatime, station code, and physical data id that exist in phy and wq datasets
-phy_m <- inner_join(phy_stations, wq_ids, by = c("station_code", "station_number", "datetime")) %>% 
-    distinct(datetime, station_code, physical_data_id)
-# join those back onto the main phytoplankton dataset
-phy_joined <- left_join(phy, phy_m)
 ```
+
+```{r}
+phy_i <- phy %>% 
+    filter(station_code %in% c("SHR", "LIS", "STTD")) %>% 
+    mutate(unique_id = paste0(station_code, datetime)) %>% 
+    distinct(unique_id, station_code, datetime, sample_date)
+
+phy_j <- left_join(phy_i, wq_ids, by = c("station_code", "sample_date")) %>% 
+    select(unique_id, station_code, sample_date, datetime.x, datetime.y) %>% 
+    mutate(time_diff = abs(datetime.x - datetime.y)) %>% 
+    rename(datetime_phytoplankton = datetime.x,
+           datetime_wq = datetime.y) %>% 
+    mutate(dupe = duplicated(unique_id))
+
+phy_a <- anti_join(phy_i, wq_ids, by = c("station_code", "sample_date"))
+hist(phy_a$sample_date, breaks = "months")
+
+
+write.csv(phy_j, "phy_loc.csv", row.names = F)
+```
+
 
 Reorder the columns for the final dataset
 
@@ -134,4 +130,7 @@ phy_final <- phy_joined %>%
     select(all_of(colnames_init), all_of(colnames_remain))
 
 ```
+
+
+
 
