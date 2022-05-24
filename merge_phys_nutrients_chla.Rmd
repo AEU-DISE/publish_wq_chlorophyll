@@ -16,33 +16,46 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(here)
+library(readr)
+library(readxl)
 ```
 
 Read in data
 ```{r}
 chla_nuts <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_20220301.csv")) %>%
-  rename(Datetime_WDL = Datetime)
+  rename(Datetime_WDL = Datetime) %>%
+  mutate(SampleDate = date(Datetime_WDL))
 chla_nuts_filt <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_filt_20220301.csv")) %>%
-  rename(Datetime_WDL = Datetime)
+  rename(Datetime_WDL = Datetime) %>%
+  mutate(SampleDate = date(Datetime_WDL))
 wq <- read_csv(here("data_clean", "clean_WQ_phys_20220210.csv")) %>%
   rename(Datetime_Access = Datetime,
-         Station = StationCode)
+         Station = StationCode) %>%
+  mutate(SampleDate = date(Datetime_Access))
+wq_excel <- read_excel(here("data_raw", "YBFMP_WQ_Data_WORKING_20200721.xlsx"), skip = 1) 
+wq2 <- wq_excel[-1,]
 ```
 
 Join data
 ```{r}
-wq_all <- full_join(wq, chla_nuts, by = c("SampleCode", "Year", "Station", "Month"))
+wq_all <- full_join(wq, chla_nuts, by = c("SampleCode", "Year", "Station", "Month", "SampleDate")) %>%
+  mutate(SampleID = paste0(format(SampleDate, "%Y%m%d"), "_", ))
+
+wq_small <- wq_all %>%
+  filter(Year>2008) %>%
+  select(Datetime_WDL, Datetime_Access, SampleDate, Station, SampleCode, WaterTemp, Conductivity, Chlorophyll, DissNitrateNitrite, DOC)
 ```
+
 
 Look for samples that don't match up
 ```{r}
 hasSampleID <- wq_all %>%
   filter(!is.na(SampleCode) & is.na(Datetime_Access))
 
-notjoined <- anti_join(wq, chla_nuts, by = c("SampleCode", "Year", "Station", "Month")) %>%
+notjoined <- anti_join(wq, chla_nuts, by = c("SampleCode", "SampleDate", "Year", "Station", "Month")) %>%
   filter(Year>2008)
 
-notjoined2 <- anti_join(chla_nuts, wq, by = c("SampleCode", "Year", "Station", "Month")) %>%
+notjoined2 <- anti_join(chla_nuts, wq, by = c("SampleCode", "SampleDate", "Year", "Station", "Month")) %>%
   filter(Year>2008)
 ```
 
