@@ -70,8 +70,8 @@ phy_i <- phy %>%
     mutate(unique_id = paste0(station_code, datetime)) %>% 
     distinct(unique_id, station_code, datetime, sample_date)
 
-phy_j <- left_join(phy_i, wq_ids, by = c("station_code", "sample_date")) %>% 
-    select(unique_id, station_code, sample_date, datetime.x, datetime.y) %>% 
+phy_j <- full_join(phy_i, wq_ids, by = c("station_code", "sample_date")) %>% 
+    select(unique_id, physical_data_id, station_code, sample_date, datetime.x, datetime.y) %>% 
     mutate(time_diff = abs(datetime.x - datetime.y)) %>% 
     rename(datetime_phytoplankton = datetime.x,
            datetime_wq = datetime.y) %>% 
