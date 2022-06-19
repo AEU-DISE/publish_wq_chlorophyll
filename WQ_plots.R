@@ -21,7 +21,7 @@ Table <- function(data) {
             min.DO = min(DO,na.rm=T),
             max.DO = max(DO,na.rm=T),
             n = n()) %>%
-    mutate_all(., InfToNA) 
+    mutate_all(., InfToNA)
   }
 
 # Yearly boxplot, y = variable of interest
@@ -30,13 +30,13 @@ Yearbox <-  function(data,y) {
   data %>%
     ggplot() +
     geom_boxplot(mapping = aes(factor(Year),!! y,fill = StationCode)) +
-    theme_bw() + 
+    theme_bw() +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.border = element_blank(),
           axis.line = element_line(colour = "black"),
           plot.title = element_text(hjust=0.5),
-          axis.text = element_text(size = 11), 
+          axis.text = element_text(size = 11),
           axis.text.x = element_text(angle = 90, hjust = 1),
           axis.title = element_text(size = 12),
           legend.text = element_text(size = 11),
@@ -45,17 +45,16 @@ Yearbox <-  function(data,y) {
 
 # Monthly boxplot, y = variable of interest
 Monthbox <-  function(data,y) {
-  y <- enquo(y)
   data %>%
     ggplot() +
-    geom_boxplot(mapping = aes(MonthAbb,!! y,fill = StationCode)) +
-    theme_bw() + 
+    geom_boxplot(mapping = aes(Month,{{y}},fill = StationCode)) +
+    theme_bw() +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.border = element_blank(),
           axis.line = element_line(colour = "black"),
           plot.title = element_text(hjust=0.5),
-          axis.text = element_text(size = 11), 
+          axis.text = element_text(size = 11),
           axis.text.x = element_text(angle = 90, hjust = 1),
           axis.title = element_text(size = 12),
           legend.text = element_text(size = 11),
@@ -74,12 +73,12 @@ VisPoint <-  function(data,y) {
           panel.border = element_blank(),
           axis.line = element_line(colour = "black"),
           plot.title = element_text(hjust=0.5),
-          axis.text = element_text(size = 11), 
+          axis.text = element_text(size = 11),
           axis.text.x = element_text(angle = 90, hjust = 1),
           axis.title = element_text(size = 12),
           legend.text = element_text(size = 11),
           legend.position = "bottom")
-} 
+}
 
 # Histogram by Station, y = variable of interest, binwidth
 VisHist <-  function(data,y, bin) {
@@ -94,11 +93,11 @@ VisHist <-  function(data,y, bin) {
           panel.border = element_blank(),
           axis.line = element_line(colour = "black"),
           plot.title = element_text(hjust=0.5),
-          axis.text = element_text(size = 11), 
+          axis.text = element_text(size = 11),
           axis.text.x = element_text(angle = 90, hjust = 1),
           axis.title = element_text(size = 12),
           legend.text = element_text(size = 11))
-} 
+}
 
 # Plot date vs. variable of interest, specifically for Lisbon
 PlotVars <- function(data,y) {
@@ -107,12 +106,12 @@ PlotVars <- function(data,y) {
     ggplot() +
     geom_point(mapping = aes(Datetime,!! y, col = StationCode)) +
     theme_bw() +
-    #scale_colour_manual(values = c("#F3B2FF", "#106E83", "#FFC971", "#BAFF87")) + 
+    #scale_colour_manual(values = c("#F3B2FF", "#106E83", "#FFC971", "#BAFF87")) +
     theme(panel.grid.major = element_blank(),
           panel.border = element_blank(),
           axis.line = element_line(colour = "black"),
           plot.title = element_text(hjust=0.5),
-          axis.text = element_text(size = 11), 
+          axis.text = element_text(size = 11),
           axis.text.x = element_text(angle = 90, hjust = 1),
           axis.title = element_text(size = 12),
           legend.text = element_text(size = 11))
