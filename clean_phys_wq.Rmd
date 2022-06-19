@@ -543,18 +543,6 @@ WQ_final <- alldata %>%
 
 ## 17. Replace blanks
 ```{r Write file, message = FALSE, warning = FALSE}
-
-
-# Replace blanks with NA
-empty_as_na <- function(x){
-    if("factor" %in% class(x)) x <- as.character(x) ## since ifelse wont work with factors
-    ifelse(as.character(x)!="", x, NA)
-}
-
-phys_yolo_flag <- phys_yolo_flag %>%
-  mutate_each(list(empty_as_na),8:22)
-
-
 ```
 
 
