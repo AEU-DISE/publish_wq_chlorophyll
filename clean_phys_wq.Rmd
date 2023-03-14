@@ -29,7 +29,8 @@ WDL <- read_csv("data_raw/WDL_SAM_Codes_20201002.csv")
 #station_latlons <- read_csv("data_raw/Stations.csv") %>%
 #  rename(Station = StationCode)
 phys0 <- read_csv("data_raw/TblPhysicalData_20210204.csv")
-physrecent <- read_excel("data_raw/YBFMP_WQ_Data_WORKING_20200721.xlsx", skip=1)
+physrecent <- read_excel("data_raw/YBFMP_WQ_Data_WORKING_20200721.xlsx", skip=1) 
+physhistoric <- read_excel("data_raw/Historical_YBFMP_WQ_Data_WORKING_20200904.xlsx", skip=1)
 light <- read_csv("data_raw/TblLight.csv")
 station_simple <- read.csv("data_raw/YBFMP_Stations_Coordinates_Info_20200716.csv") %>%
   select(1:2) %>% 
@@ -125,7 +126,7 @@ physK <- physrecent[-1,] %>%
           Time = as.numeric(CollectionTime),
          Hour = floor(Time * 24),
          Minute = (((Time*24) - Hour) * 60),
-         Time2 = paste0(Hour, ":", Minute),
+         Time2 = paste0(Hour, ":", (signif(Minute, digits = 2))), 
          time = strptime(Time2, format="%H:%M")  %>%
            strftime(Time2, format = "%H:%M"),
          Datetime = paste(WdlSamCollectionDate, time),
@@ -152,6 +153,55 @@ physK <- physrecent[-1,] %>%
          StationNumber,
          SAM_Code = SamplingNumberEvent) %>%
   mutate(across(.cols = Secchi:Turbidity, as.numeric))
+```
+
+### Format additional data
+```{r}
+physH <- physhistoric[-1,] %>%
+  janitor::clean_names(case = "upper_camel") %>%
+  select(-StationNumber) %>%
+  rename(StationCode = StationName) %>%
+  filter(StationCode %in% c("LIS", "SHR", "STTD")) %>%
+  left_join(station_simple, by = "StationCode") %>%
+  mutate(PhysicalDataID = NA,
+         WdlSamCollectionDate = as.Date(as.numeric(as.character(WdlSamCollectionDate)), origin = "1899-12-30"),
+          Time = as.numeric(CollectionTime),
+         Hour = floor(Time * 24),
+         Minute = (((Time*24) - Hour) * 60),
+         Time2 = paste0(Hour, ":",(signif(Minute, digits = 2))),
+         time = strptime(Time2, format="%H:%M")  %>%
+           strftime(Time2, format = "%H:%M"),
+         Datetime = paste(WdlSamCollectionDate, time),
+        Datetime = ymd_hm(Datetime),
+         Year = year(Datetime),
+         Month=month(Datetime),
+        Microcyst = as.numeric(Microcyst)) %>%
+  select(PhysicalDataID, 
+         StationCode,
+         SamplingDate = WdlSamCollectionDate,
+         Datetime,
+         Year,
+         Month,
+         Tide,
+         Microcystis = Microcyst,
+         Secchi,
+         WaterTemp,
+         Conductivity = Ec,
+         SpecificConductance = SpCond,
+         DO = DoProbe,
+         pH = PH,
+         Turbidity = Turb,
+         FieldComments_WQ = FieldCommentsWq,
+         StationNumber,
+         SAM_Code = SamplingNumberEvent) %>%
+  mutate(across(.cols = Secchi:Turbidity, as.numeric))
+```
+
+
+```{r}
+# Combine physK and physH tables
+physK2 <- bind_rows(physH,physK)
+
 ```
 
 ## 4.Filter to relevant stations and timeframe
@@ -439,7 +489,7 @@ WDL_phys_slice <- WDL_phys %>%
 ## 14. New data QAQC
 
 ```{r}
-WQ_longK <- pivot_longer(physK, cols = c(Secchi:Turbidity),names_to = "Parameter", values_to = "Value") %>%
+WQ_longK <- pivot_longer(physK2, cols = c(Secchi:Turbidity),names_to = "Parameter", values_to = "Value") %>%
   mutate(Index = 1:nrow(.))
 ```
 
@@ -451,40 +501,40 @@ ggplotly(WQ_plotsK)
 
 
 ```{r Yolo temperature plots, warning = FALSE, message = FALSE}
-Yearbox(physK, WaterTemp)
-Monthbox(physK,WaterTemp)
-VisHist(physK, WaterTemp, 5)
+Yearbox(physK2, WaterTemp)
+Monthbox(physK2,WaterTemp)
+VisHist(physK2, WaterTemp, 5)
 
-Yearbox(physK, Secchi)
-Monthbox(physK,Secchi)
-VisHist(physK, Secchi, 0.5)
+Yearbox(physK2, Secchi)
+Monthbox(physK2,Secchi)
+VisHist(physK2, Secchi, 0.5)
 
-Yearbox(physK, Turbidity)
-Monthbox(physK,Turbidity)
-VisHist(physK, Turbidity, 20)
+Yearbox(physK2, Turbidity)
+Monthbox(physK2,Turbidity)
+VisHist(physK2, Turbidity, 20)
 
-Yearbox(physK, DO)
-Monthbox(physK,DO)
-VisHist(physK, DO, 1)
+Yearbox(physK2, DO)
+Monthbox(physK2,DO)
+VisHist(physK2, DO, 1)
 
-Yearbox(physK, Conductivity)
-Monthbox(physK,Conductivity)
-VisHist(physK, Conductivity, 20)
+Yearbox(physK2, Conductivity)
+Monthbox(physK2,Conductivity)
+VisHist(physK2, Conductivity, 20)
 
-Yearbox(physK, SpecificConductance)
-Monthbox(physK,SpecificConductance)
-VisHist(physK, SpecificConductance, 20)
+Yearbox(physK2, SpecificConductance)
+Monthbox(physK2,SpecificConductance)
+VisHist(physK2, SpecificConductance, 20)
 
-Yearbox(physK, pH)
-Monthbox(physK,pH)
-VisHist(physK, pH, 1)
+Yearbox(physK2, pH)
+Monthbox(physK2,pH)
+VisHist(physK2, pH, 1)
 
 ```
 
 ```{r}
-sec.tur2 <- corrplots(physK, Secchi, Turbidity)
-do.temp2 <- corrplots(physK, WaterTemp, DO)
-ec.spc2 <- corrplots(physK, Conductivity, SpecificConductance)
+sec.tur2 <- corrplots(physK2, Secchi, Turbidity)
+do.temp2 <- corrplots(physK2, WaterTemp, DO)
+ec.spc2 <- corrplots(physK2, Conductivity, SpecificConductance)
 grid.arrange(sec.tur2, do.temp2, ec.spc2)
 ```
 
@@ -530,7 +580,7 @@ Some work needs to be done here to check for outliers for recent data. There is 
 ## 15. Combine WQ files
 
 ```{r}
-alldata <- bind_rows(WDL_phys_slice, physK)
+alldata <- bind_rows(WDL_phys_slice, physK2)
 ```
 
 
