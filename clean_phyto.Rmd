@@ -21,9 +21,7 @@ library(stringr)
 st_options(use.x11 = FALSE)
 ```
 
-
- 
-
+Read in phytoplankton data 
 ```{r}
 phy <- read_excel("data_raw/phyto_data_raw.xlsx", guess_max = 12359, sheet = 2, na = c("", "n/a", "NA")) %>% 
     clean_names() %>% 
@@ -33,13 +31,21 @@ phy <- read_excel("data_raw/phyto_data_raw.xlsx", guess_max = 12359, sheet = 2, 
     mutate(colony_filament_individual_group_code = tolower(colony_filament_individual_group_code)) %>% 
     mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "7.4", NA, colony_filament_individual_group_code)) %>% 
     mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "c3", "c", colony_filament_individual_group_code)) %>% 
-    rename(station_code_original = station_code) %>% 
+    mutate(station_code_original = station_code) %>% 
     mutate(station_code = str_extract(station_code_original, "^[A-Z0-9]+")) %>% 
     mutate(sample_time = ifelse(is.na(sample_time), "00:00:00", sample_time)) %>% 
     mutate(datetime = paste(as.character(sample_date), sample_time)) %>% 
     mutate(datetime = as.POSIXct(datetime, tz = "UTC"))
+
 ```
 
+Read in wq data 
+```{r}
+wq <- read_csv("data_clean/clean_WQ_phys_20220210.csv", show_col_types = F) %>% 
+    clean_names() %>% 
+    mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
+    mutate(sample_date = as.Date(datetime)) 
+```
 
 
 ```{r, results = "asis"}
@@ -54,36 +60,49 @@ print(dfSummary(phy,
           style = "grid"), method = "render")
 ```
 
+Check IDs
 
 ```{r}
-wq_ids <- read_csv("data_clean/clean_WQ_phys_20220210.csv", show_col_types = F) %>% 
+wq_ids <- wq %>% 
     clean_names() %>% 
     mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
     mutate(sample_date = as.Date(datetime)) %>% 
-    distinct(sample_date, datetime, station_code, physical_data_id)
+    mutate(unique_id = paste0(station_code,"_",datetime))%>%
+    filter(!is.na(datetime)) %>%
+    distinct(sample_date, datetime, station_code, physical_data_id, unique_id) 
 
+phy_ids <- phy %>% 
+    filter(station_code %in% c("SHR", "LIS", "STTD")) %>% 
+    filter(!is.na(datetime)) %>%
+    mutate(unique_id = paste0(station_code, "_", datetime)) %>% 
+    distinct(unique_id, station_code, station_code_original, datetime, sample_date)
 ```
 
+Checking for missing samples on phyto and wq side - still a couple missing
 ```{r}
-phy_i <- phy %>% 
-    filter(station_code %in% c("SHR", "LIS", "STTD")) %>% 
-    mutate(unique_id = paste0(station_code, datetime)) %>% 
-    distinct(unique_id, station_code, datetime, sample_date)
-
-phy_j <- full_join(phy_i, wq_ids, by = c("station_code", "sample_date")) %>% 
-    select(unique_id, physical_data_id, station_code, sample_date, datetime.x, datetime.y) %>% 
+phy_wq <- full_join(phy_ids, wq_ids, by = c("station_code", "sample_date", "unique_id")) %>% 
+    select(unique_id, physical_data_id, station_code, station_code_original, sample_date, datetime.x, datetime.y) %>% 
     mutate(time_diff = abs(datetime.x - datetime.y)) %>% 
     rename(datetime_phytoplankton = datetime.x,
            datetime_wq = datetime.y) %>% 
-    mutate(dupe = duplicated(unique_id))
+    mutate(dupe = duplicated(unique_id)) %>%
+    filter(!grepl("DUP", station_code_original))
 
-phy_a <- anti_join(phy_i, wq_ids, by = c("station_code", "sample_date"))
+phy_a <- anti_join(phy_ids, wq_ids, by = c("station_code", "sample_date"))
 hist(phy_a$sample_date, breaks = "months")
 
 
-write.csv(phy_j, "phy_loc.csv", row.names = F)
+# write.csv(phy_wq, "phy_loc.csv", row.names = F)
 ```
 
+Join dataset 
+* may consider changing this to left_join later 
+* may consider renaming eventID = unique_id
+* may consider adding another ID for each row
+```{r}
+phy_joined <- full_join(phy, wq) %>%
+  rename(event_id = unique_id)
+```
 
 Reorder the columns for the final dataset
 
@@ -94,6 +113,7 @@ id_cols <- c("sample_date",
              "station_code",
              "station_code_original",
              "physical_data_id",
+             "event_id",
              "method_code",
              "depth_m")
 
