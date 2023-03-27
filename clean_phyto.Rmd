@@ -35,16 +35,18 @@ phy <- read_excel("data_raw/phyto_data_raw.xlsx", guess_max = 12359, sheet = 2, 
     mutate(station_code = str_extract(station_code_original, "^[A-Z0-9]+")) %>% 
     mutate(sample_time = ifelse(is.na(sample_time), "00:00:00", sample_time)) %>% 
     mutate(datetime = paste(as.character(sample_date), sample_time)) %>% 
-    mutate(datetime = as.POSIXct(datetime, tz = "UTC"))
+    mutate(datetime = as.POSIXct(datetime, tz = "UTC")) %>%
+   mutate(unique_id = paste0(station_code,"_",datetime))
 
 ```
 
 Read in wq data 
 ```{r}
-wq <- read_csv("data_clean/clean_WQ_phys_20220210.csv", show_col_types = F) %>% 
+wq <- read_csv("data_clean/clean_WQ_phys_20230327.csv", show_col_types = F) %>% 
     clean_names() %>% 
     mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
-    mutate(sample_date = as.Date(datetime)) 
+    mutate(sample_date = as.Date(datetime)) %>%
+    mutate(unique_id = paste0(station_code,"_",datetime))
 ```
 
 
@@ -78,7 +80,7 @@ phy_ids <- phy %>%
     distinct(unique_id, station_code, station_code_original, datetime, sample_date)
 ```
 
-Checking for missing samples on phyto and wq side - still a couple missing
+Checking for missing samples on phyto and wq side
 ```{r}
 phy_wq <- full_join(phy_ids, wq_ids, by = c("station_code", "sample_date", "unique_id")) %>% 
     select(unique_id, physical_data_id, station_code, station_code_original, sample_date, datetime.x, datetime.y) %>% 
@@ -100,8 +102,10 @@ Join dataset
 * may consider renaming eventID = unique_id
 * may consider adding another ID for each row
 ```{r}
-phy_joined <- full_join(phy, wq) %>%
-  rename(event_id = unique_id)
+phy_joined <- full_join(phy, wq)  %>%
+    filter(!grepl("DUP", station_code_original))%>% #remove duplicate samples
+    filter(!is.na(taxon)) %>%
+    rename(event_id = unique_id)
 ```
 
 Reorder the columns for the final dataset
@@ -111,7 +115,6 @@ id_cols <- c("sample_date",
              "sample_time",
              "datetime",
              "station_code",
-             "station_code_original",
              "physical_data_id",
              "event_id",
              "method_code",
