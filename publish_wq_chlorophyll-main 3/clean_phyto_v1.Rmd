@@ -1,0 +1,216 @@
+---
+title: "Clean Phytoplankton Data"
+author: "Jeanette Clark"
+date: '2022-05-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(readxl)
+library(readr)
+library(janitor)
+library(summarytools)
+library(dplyr)
+library(knitr)
+library(stringr)
+library(lubridate)
+library(tidyverse)
+require(discretewq)
+library(plotly)
+library(here)
+st_options(use.x11 = FALSE)
+```
+
+Read in phytoplankton data 
+```{r}
+phy <- read_excel("data_raw/phyto_data_raw.xlsx", guess_max = 12359, sheet = 2, na = c("", "n/a", "NA")) %>% 
+    clean_names() %>% 
+    mutate(organisims_per_ml = factor * unit_abundance) %>% 
+    mutate(sample_time = as.character(sample_time)) %>% 
+    mutate(sample_time = str_extract(sample_time, "[0-9]{2}:[0-9]{2}:[0-9]{2}$")) %>% 
+    mutate(colony_filament_individual_group_code = tolower(colony_filament_individual_group_code)) %>% 
+    mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "7.4", NA, colony_filament_individual_group_code)) %>% 
+    mutate(colony_filament_individual_group_code = ifelse(colony_filament_individual_group_code == "c3", "c", colony_filament_individual_group_code)) %>% 
+    mutate(station_code_original = station_code) %>% 
+    mutate(station_code = str_extract(station_code_original, "^[A-Z0-9]+")) %>% 
+    mutate(sample_time = ifelse(is.na(sample_time), "00:00:00", sample_time)) %>% 
+    mutate(datetime = paste(as.character(sample_date), sample_time)) %>% 
+    mutate(datetime = as.POSIXct(datetime, tz = "UTC")) %>%
+   mutate(unique_id = paste0(station_code,"_",datetime))
+
+```
+
+Read in wq data 
+```{r}
+wq <- read_csv("data_clean/clean_WQ_phys_20230327.csv", show_col_types = F) %>% 
+    clean_names() %>% 
+    mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
+    mutate(sample_date = as.Date(datetime)) %>%
+    mutate(unique_id = paste0(station_code,"_",datetime))
+```
+
+```{r}
+chla_nuts <- read_csv(here("data_clean", "clean_ybfmp_chla_nuts_20220301.csv")) %>%
+  clean_names() %>% 
+  rename(station_code = station) %>% 
+  mutate(sample_date = date(datetime)) %>% 
+  mutate(event_id = paste0(station_code,"_",datetime)) %>% 
+      rename(lab_comments = notes)
+```
+
+```{r, results = "asis"}
+st_options(bootstrap.css = FALSE, 
+           dfSummary.silent = TRUE)
+st_css()
+
+print(dfSummary(phy,
+          valid.col = FALSE,  
+          plain.ascii = FALSE, 
+          graph.magnif = 0.75,
+          style = "grid"), method = "render")
+```
+
+Check IDs
+
+```{r}
+wq_ids <- wq %>% 
+    clean_names() %>% 
+    mutate(datetime = as.POSIXct(datetime, tz = "")) %>% 
+    mutate(sample_date = as.Date(datetime)) %>% 
+    mutate(unique_id = paste0(station_code,"_",datetime))%>%
+    filter(!is.na(datetime)) %>%
+    distinct(sample_date, datetime, station_code, physical_data_id, unique_id) 
+
+phy_ids <- phy %>% 
+    filter(station_code %in% c("SHR", "LIS", "STTD")) %>% 
+    filter(!is.na(datetime)) %>%
+    mutate(unique_id = paste0(station_code, "_", datetime)) %>% 
+    distinct(unique_id, station_code, station_code_original, datetime, sample_date)
+```
+
+Checking for missing samples on phyto and wq side
+```{r}
+phy_wq <- full_join(phy_ids, wq_ids, by = c("station_code", "sample_date", "unique_id")) %>% 
+    select(unique_id, physical_data_id, station_code, station_code_original, sample_date, datetime.x, datetime.y) %>% 
+    mutate(time_diff = abs(datetime.x - datetime.y)) %>% 
+    rename(datetime_phytoplankton = datetime.x,
+           datetime_wq = datetime.y) %>% 
+    mutate(dupe = duplicated(unique_id)) %>%
+    filter(!grepl("DUP", station_code_original)) %>% 
+    filter(!grepl("Dup", station_code_original))
+
+phy_a <- anti_join(phy_ids, wq_ids, by = c("station_code", "sample_date"))
+hist(phy_a$sample_date, breaks = "months")
+
+
+# write.csv(phy_wq, "phy_loc.csv", row.names = F)
+```
+
+Join datasets 
+* may consider changing this to left_join later 
+* may consider renaming eventID = unique_id
+* may consider adding another ID for each row
+```{r}
+phyto_joined <- full_join(phy,wq) %>% 
+    filter(station_code %in% c("SHR", "LIS", "STTD")) %>% 
+    filter(!is.na(datetime)) %>%
+    mutate(unique_id = paste0(station_code, "_", datetime)) %>%
+    filter(!grepl("DUP", station_code_original))%>% #remove duplicate samples
+    filter(!grepl("Dup", station_code_original))%>%  
+    filter(!is.na(taxon)) %>%
+    rename(event_id = unique_id)
+
+nutr_joined <- full_join(wq,chla_nuts)
+
+#write.csv(nutr_joined, "nutr_joined.csv", row.names = F)
+
+```
+
+Reorder the columns for the final dataset
+
+```{r}
+id_cols <- c("sample_date",
+             "sample_time",
+             "datetime",
+             "station_code",
+             "physical_data_id",
+             "event_id",
+             "method_code",
+             "depth_m")
+
+sample_info_cols <- c("volume_received_m_l",
+                      "volume_analyzed_m_l",
+                      "organisims_per_ml",
+                      "percent_of_sample_counted",
+                      "field_of_view_mm2",
+                      "slide_chamber_area_mm2",
+                      "area_counted",
+                      "dimension",
+                      "number_of_fields_counted",
+                      "factor",
+                      "bsa_tin",
+                      "bsa_number",
+                      "taxonomist",
+                      "comments")
+
+measurement_colnames <- c("organisims_per_ml",
+                          "unit_abundance",
+                          "total_cells",
+                          "taxon",
+                          "genus",
+                          "species",
+                          "synonym",
+                          "diatom_soft_body",
+                          "colony_filament_individual_group_code",
+                          "shape")
+
+colnames_init <- c(id_cols, sample_info_cols, measurement_colnames)
+colnames_remain <- colnames(phyto_joined)[which(!(colnames(phyto_joined) %in% colnames_init))]
+
+phyto_fin <- phyto_joined %>% 
+    select(all_of(colnames_init), all_of(colnames_remain))
+
+#phyto_final <- phyto_fin[c(-5,-71,-72,-73,-74,-75,-76)]
+clean_phyto <- phyto_fin[c(-5,-7,-19,-20,-21,-71,-72,-73,-74,-75,-76,-77,-78,-79,-80,-81,-82,-83,-84,-85,-86,-87)]
+write.csv(clean_phyto, "clean_phyto.csv", row.names = F)
+#write.csv(phyto_final, "phyto_final.csv", row.names = F)
+
+
+```
+
+
+```{r}
+id_cols2 <- c("sample_date",
+             "datetime",
+             "station_code",
+             "latitude",
+             "longitude",
+             "physical_data_id",
+             "station_number",
+             "event_id")
+
+sample_info_cols2 <- c("sample_code",
+                       "lab_comments")
+                      
+
+measurement_colnames2 <- c("wy",
+                           "month",
+                           "year")
+
+colnames_init2 <- c(id_cols2, sample_info_cols2, measurement_colnames2)
+colnames_remain2 <- colnames(nutr_joined)[which(!(colnames(nutr_joined) %in% colnames_init2))]
+
+nutr_fin <- nutr_joined %>% 
+    select(all_of(colnames_init2), all_of(colnames_remain2))
+
+nutr_final <- nutr_fin[c(-6,-7,-9,-10,-11,-12,-13,-33)]
+write.csv(wq, "wq_final.csv", row.names = F)
+write.csv(nutr_final, "nutr_final.csv", row.names = F)
+
+```
+
+

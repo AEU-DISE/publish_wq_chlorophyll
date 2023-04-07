@@ -1,0 +1,39 @@
+﻿attributeName,measurementScale,domain,unit,numberType,attributeLabel,attributeDefinition,definition,formatString
+sample_date,dateTime,dateTimeDomain,NA,NA,NA,date of measurement,NA,YYYY-MM-DD
+datetime,dateTime,dateTimeDomain,NA,NA,NA,date and time of measurement,NA,YYYY-MM-HH hh:mm:ss
+station_code,nominal,textDomain,NA,NA,NA,station identifier,any text,NA
+latitude,ratio,numericDomain,degree,real,NA,latitude of station,NA,NA
+longitude,ratio,numericDomain,degree,real,NA,longitude of station,NA,NA
+event_id,nominal,textDomain,NA,NA,NA,sample identifier code,any text,NA
+lab_comments,nominal,textDomain,NA,NA,NA,DWR WQ lab comments,any text,NA
+wy,dateTime,dateTimeDomain,NA,natural,NA,water year,NA,YYYY
+tide,nominal,textDomain,NA,NA,NA,tide at time of measurement,any text,NA
+microcystis,nominal,textDomain,NA,NA,NA,visual rating of Microcystis in sampled body,"1 = Microcystis absent , 2 = Low-widely scattered colonies",NA
+secchi,ratio,numericDomain,meter,real,NA,secchi disk depth,NA,NA
+water_temp,interval,numericDomain,celsius,real,NA,water temperature,NA,NA
+conductivity,ratio,numericDomain,microSeimensPerCentimeter,real,NA,water conductivity,NA,NA
+specific_conductance,ratio,numericDomain,microSeimensPerCentimeter,real,NA,water specific conductance,NA,NA
+do,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved oxygen concentration in water,NA,NA
+p_h,interval,numericDomain,dimensionless,real,NA,pH value of water,NA,NA
+turbidity,ratio,numericDomain,nephelometricTurbidityUnit,real,NA,turbidity of water,NA,NA
+flag_pqc,nominal,textDomain,NA,NA,NA,data flag,"2 = suspicious , 3 = highly suspicious",NA
+comment_pqc,nominal,textDomain,NA,NA,NA,data comments,any text,NA
+chlorophyll,ratio,numericDomain,microgramPerLiter,real,NA,chlorophyll concentration,NA,NA
+pheophytin,ratio,numericDomain,microgramPerLiter,real,NA,pheophytin concentration,NA,NA
+diss_ammonia_sign,nominal,textDomain,NA,NA,NA,dissolved ammonia sign,comparison operators,NA
+diss_ammonia,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved ammonia concentration,NA,NA
+diss_calcium,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved calcium concentration,NA,NA
+diss_chloride,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved chloride concentration,NA,NA
+diss_nitrate_nitrite_sign,nominal,textDomain,NA,NA,NA,dissolved nitrate sign,comparison operators,NA
+diss_nitrate_nitrite,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved nitrate concentration,NA,NA
+doc,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved organic carbon,NA,NA
+toc,ratio,numericDomain,milligramsPerLiter,real,NA,total organic carbon,NA,NA
+don,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved organic nitrogen,NA,NA
+diss_orthophos_sign,nominal,textDomain,NA,NA,NA,dissolved orthophosphate sign,comparison operators,NA
+diss_orthophos,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved orthophosphate,NA,NA
+tot_phos,ratio,numericDomain,milligramsPerLiter,real,NA,total phosphate,NA,NA
+diss_silica,ratio,numericDomain,milligramsPerLiter,real,NA,dissolved silica,NA,NA
+tds,ratio,numericDomain,milligramsPerLiter,natural,NA,total dissolved solids,NA,NA
+tss,ratio,numericDomain,milligramsPerLiter,real,NA,total suspended solids,NA,NA
+vss,ratio,numericDomain,milligramsPerLiter,real,NA,volatile suspended solids,NA,NA
+tkn,ratio,numericDomain,milligramsPerLiter,real,NA,total kjedahl nitrogen,NA,NA

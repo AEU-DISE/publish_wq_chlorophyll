@@ -1,0 +1,66 @@
+﻿attributeName,measurementScale,domain,unit,numberType,attributeLabel,attributeDefinition,definition,formatString
+sample_date,dateTime,dateTimeDomain,NA,NA,NA,date of measurement,NA,YYYY-MM-DD
+sample_time,dateTime,dateTimeDomain,NA,NA,NA,time of measurement,NA,hh:mm:ss
+datetime,dateTime,dateTimeDomain,NA,NA,NA,date and time of measurement,NA,YYYY-MM-DD hh:mm:ss
+station_code,nominal,textDomain,NA,NA,NA,station identifier code,any text,NA
+event_id,nominal,textDomain,NA,NA,NA,unique sample identifier,any text,NA
+depth_m,ratio,numericDomain,meter,real,NA,Depth sample was taken at in meters,NA,NA
+volume_received_m_l,ratio,numericDomain,milliliter,real,NA,Volume received by the contractor in milliliters,NA,NA
+volume_analyzed_m_l,ratio,numericDomain,milliliter,real,NA,Volume analyzed by the contractor in milliliters,NA,NA
+organisims_per_ml,ratio,numericDomain,count,real,NA,Organisms (in natural units) per mL,NA,NA
+percent_of_sample_counted,ratio,numericDomain,percent,real,NA,Percent of the sample that was processed,NA,NA
+field_of_view_mm2,ratio,numericDomain,millimeters squared,real,NA,Area of each grid field in square millimeters,NA,NA
+slide_chamber_area_mm2,ratio,numericDomain,millimeters squared,real,NA,Area of cell bottom in square millimeters,NA,NA
+area_counted,ratio,numericDomain,millimeters squared,real,NA,Area counted in square millimeters,NA,NA
+dimension,nominal,textDomain,NA,NA,NA,Axis of measurement in length or width,any text,NA
+number_of_fields_counted,ratio,numericDomain,count,real,NA,Number of microscope fields counted,NA,NA
+factor,ratio,numericDomain,count,real,NA,Multiplier for calculating organisms per milliliter,NA,NA
+comments,nominal,textDomain,NA,NA,NA,Taxonomist comments,any text,NA
+unit_abundance,ratio,numericDomain,count,real,NA,Natural Unit Abundance,NA,NA
+total_cells,ratio,numericDomain,count,real,NA,Total cells per natural unit,NA,NA
+taxon,nominal,textDomain,NA,NA,NA,Phytoplankton Taxon Name (genus and species),any text,NA
+genus,nominal,textDomain,NA,NA,NA,Phytoplankton Genus Name,any text,NA
+species,nominal,textDomain,NA,NA,NA,Phytoplankton Species Name,any text,NA
+synonym,nominal,textDomain,NA,NA,NA,Taxonomic Synonym (if applicable),any text,NA
+diatom_soft_body,nominal,textDomain,NA,NA,NA,"Type of phytoplankton (diatom: silica-based cell wall, or soft body: cell wall lacking silica)",any text,NA
+colony_filament_individual_group_code,nominal,textDomain,NA,NA,NA,Alphabetic code for phytoplankton growth form,any text,NA
+shape,nominal,textDomain,NA,NA,NA,Shape of an individual cell of the phytoplankton taxon,any text,NA
+gald1,ratio,numericDomain,micrometer,real,NA,First Greatest Axial Linear Dimension in microns,NA,NA
+gald2,ratio,numericDomain,micrometer,real,NA,Second Greatest Axial Linear Dimension in microns (if applicable),NA,NA
+gald3,ratio,numericDomain,micrometer,real,NA,Third Greatest Axial Linear Dimension in microns (if applicable),NA,NA
+biovolume_1,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of first cell measured in cubic microns,NA,NA
+biovolume_2,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of second cell measured in cubic microns (if applicable),NA,NA
+biovolume_3,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of third cell measured in cubic microns (if applicable),NA,NA
+biovolume_4,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of fourth cell measured in cubic microns (if applicable),NA,NA
+biovolume_5,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of fifth cell measured in cubic microns (if applicable),NA,NA
+biovolume_6,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of sixth cell measured in cubic microns (if applicable),NA,NA
+biovolume_7,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of seventh cell measured in cubic microns (if applicable),NA,NA
+biovolume_8,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of eighth cell measured in cubic microns (if applicable),NA,NA
+biovolume_9,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of ninth cell measured in cubic microns (if applicable),NA,NA
+biovolume_10,ratio,numericDomain,cubic micrometer,real,NA,Biovolume of tenth cell measured in cubic microns (if applicable),NA,NA
+measurement_average,ratio,numericDomain,micrometer,real,NA,Average of measurements,NA,NA
+measurement_1,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_2,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_3,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_4,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_5,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_6,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_7,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_8,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_9,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_10,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_11,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_12,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_13,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_14,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_15,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_16,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_17,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_18,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_19,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_20,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_21,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_22,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_23,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_24,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA
+measurement_25,ratio,numericDomain,micrometer,real,NA,Measurement of axial linear dimension,NA,NA

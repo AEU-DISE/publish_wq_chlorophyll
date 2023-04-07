@@ -1,0 +1,606 @@
+---
+title: "clean_phys_wq"
+author: "Catarina Pien"
+date: "1/25/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Setup
+```{r}
+library(tidyverse)
+library(knitr)
+library(lubridate)
+library(kableExtra)
+library(gridExtra)
+library(readr)
+library(readxl)
+library(plotly)
+```
+
+##2. Read in wq
+```{r}
+WDL <- read_csv("data_raw/WDL_SAM_Codes_20201002.csv")
+#station_latlons <- read_csv("data_raw/Stations.csv") %>%
+#  rename(Station = StationCode)
+phys0 <- read_csv("data_raw/TblPhysicalData_20210204.csv")
+physrecent <- read_excel("data_raw/YBFMP_WQ_Data_WORKING_20200721.xlsx", skip=1) 
+physhistoric <- read_excel("data_raw/Historical_YBFMP_WQ_Data_WORKING_20200904.xlsx", skip=1)
+light <- read_csv("data_raw/TblLight.csv")
+station_simple <- read.csv("data_raw/YBFMP_Stations_Coordinates_Info_20200716.csv") %>%
+  select(1:2) %>% 
+  rename(StationCode = Station.Name, StationNumber = Station.Number)
+source("WQ_plots.R")
+```
+
+```{r}
+corrplots <- function(df, x, y) {
+  ggplot(df, aes(x={{x}}, y = {{y}})) + 
+    geom_point() + 
+    geom_smooth() +
+  #labs(title = paste0(x, " by " y), x = x, y = y)+
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(hjust=0.5),
+        axis.text = element_text(size = 11), 
+        axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.title = element_text(size = 12),
+        legend.text = element_text(size = 11))
+}
+```
+
+## 3. Rename and restructure variables
+
+Datetime
+```{r rename}
+phys <- phys0 %>% mutate(Datetime = paste(Date, Time, sep = " "),
+                        Datetime = mdy_hms(Datetime),
+                        Date = date(Datetime),
+                        Year = year(Datetime),
+                        Month = month(Datetime),
+                        #MonthAbb = month(Datetime, label = TRUE), 
+                        Tide = as.factor(Tide))
+```
+
+Physical Variables
+```{r}
+phys.s <- phys %>%
+  select(PhysicalDataID, StationCode = `Station Code`,
+         Date, Datetime, Year, Month,  Tide,
+         Microcystis = MicrocystisVisualRank,
+         Secchi = SecchiDiskDepth, WaterTemp = WaterTemperature,
+         Conductivity = EC, SpecificConductance = SpCnd,
+         DO, pH, Turbidity, 
+         FieldComments_WQ = Comments)
+```
+
+
+
+Light table - not currently included, but might want to include this? 
+```{r}
+light.s <- light %>%
+  rename(FieldComments_Light = FieldComments) %>%
+  select(-Field1)
+```
+
+WDL (to later join with phys)
+- select down to certain columns. Then remove certain columns and rename. 
+```{r}
+unique(WDL$SPP_DESCRIPTION)
+WDL.s <- WDL %>% 
+  select(c(RUN_NAME, ACT_UNIT_NAME, STATION_NUM, NAME, SAM_CODE, SAM_COLLECTION_DATE, SAM_SAM_CODE_PARENT, SPP_DESCRIPTION)) %>%
+  filter(RUN_NAME == "YB - Fall Study" | RUN_NAME == "YB - Fall Study - SFSU 2 Depths" | ACT_UNIT_NAME == "Aquatic Ecology") %>%
+  select(-RUN_NAME, -ACT_UNIT_NAME) %>%
+  rename(
+    StationNumber = STATION_NUM,
+    StationName = NAME, 
+    SAM_Code = SAM_CODE,
+    SAM_Code_Parent = SAM_SAM_CODE_PARENT,
+    Datetime = SAM_COLLECTION_DATE,
+    SampleType = SPP_DESCRIPTION) %>%
+  filter(SampleType %in% c("Normal Sample", "Duplicate Sample"))
+  
+
+WDL.s$Datetime <- mdy_hm(WDL.s$Datetime)
+WDL.s$SamplingDate <- as.Date(WDL.s$Datetime)
+```
+
+### Format more recent data
+```{r}
+physK <- physrecent[-1,] %>%
+  janitor::clean_names(case = "upper_camel") %>%
+  select(-StationNumber) %>%
+  rename(StationCode = StationName) %>%
+  filter(StationCode %in% c("LIS", "SHR", "STTD")) %>%
+  left_join(station_simple, by = "StationCode") %>%
+  mutate(PhysicalDataID = NA,
+         WdlSamCollectionDate = as.Date(as.numeric(as.character(WdlSamCollectionDate)), origin = "1899-12-30"),
+          Time = as.numeric(CollectionTime),
+         Hour = floor(Time * 24),
+         Minute = (((Time*24) - Hour) * 60),
+         Time2 = paste0(Hour, ":", (signif(Minute, digits = 2))), 
+         time = strptime(Time2, format="%H:%M")  %>%
+           strftime(Time2, format = "%H:%M"),
+         Datetime = paste(WdlSamCollectionDate, time),
+        Datetime = ymd_hm(Datetime),
+         Year = year(Datetime),
+         Month=month(Datetime),
+        Microcyst = as.numeric(Microcyst)) %>%
+  select(PhysicalDataID, 
+         StationCode,
+         SamplingDate = WdlSamCollectionDate,
+         Datetime,
+         Year,
+         Month,
+         Tide,
+         Microcystis = Microcyst,
+         Secchi,
+         WaterTemp,
+         Conductivity = Ec,
+         SpecificConductance = SpCond,
+         DO = DoProbe,
+         pH = PH,
+         Turbidity = Turb,
+         FieldComments_WQ = FieldCommentsWq,
+         StationNumber,
+         SAM_Code = SamplingNumberEvent) %>%
+  mutate(across(.cols = Secchi:Turbidity, as.numeric))
+```
+
+### Format additional data
+```{r}
+physH <- physhistoric[-1,] %>%
+  janitor::clean_names(case = "upper_camel") %>%
+  select(-StationNumber) %>%
+  rename(StationCode = StationName) %>%
+  filter(StationCode %in% c("LIS", "SHR", "STTD")) %>%
+  left_join(station_simple, by = "StationCode") %>%
+  mutate(PhysicalDataID = NA,
+         WdlSamCollectionDate = as.Date(as.numeric(as.character(WdlSamCollectionDate)), origin = "1899-12-30"),
+          Time = as.numeric(CollectionTime),
+         Hour = floor(Time * 24),
+         Minute = (((Time*24) - Hour) * 60),
+         Time2 = paste0(Hour, ":",(signif(Minute, digits = 2))),
+         time = strptime(Time2, format="%H:%M")  %>%
+           strftime(Time2, format = "%H:%M"),
+         Datetime = paste(WdlSamCollectionDate, time),
+        Datetime = ymd_hm(Datetime),
+         Year = year(Datetime),
+         Month=month(Datetime),
+        Microcyst = as.numeric(Microcyst)) %>%
+  select(PhysicalDataID, 
+         StationCode,
+         SamplingDate = WdlSamCollectionDate,
+         Datetime,
+         Year,
+         Month,
+         Tide,
+         Microcystis = Microcyst,
+         Secchi,
+         WaterTemp,
+         Conductivity = Ec,
+         SpecificConductance = SpCond,
+         DO = DoProbe,
+         pH = PH,
+         Turbidity = Turb,
+         FieldComments_WQ = FieldCommentsWq,
+         StationNumber,
+         SAM_Code = SamplingNumberEvent) %>%
+  mutate(across(.cols = Secchi:Turbidity, as.numeric))
+```
+
+
+```{r}
+# Combine physK and physH tables
+physK2 <- bind_rows(physH,physK)
+
+```
+
+## 4.Filter to relevant stations and timeframe
+```{r filter, results = FALSE, message = FALSE, warning = FALSE}
+# Filter only SHR and STTD
+unique(phys.s$StationCode)
+phys_yolo <- phys.s %>%
+  filter(StationCode %in% c("LIS", "SHR", "STTD"))
+```
+
+## 5.Look at observations in stations
+```{r Stations, message = FALSE, warning = FALSE}
+
+# summarize number of observations per year
+sta.sum <- phys_yolo %>%
+  group_by(StationCode, Year) %>%
+  summarize(n = n())
+
+# plot number of observations per station
+ggplot(sta.sum, aes(Year, n, fill = StationCode)) + geom_bar(stat = "identity") +theme_bw() +
+  scale_y_continuous(breaks = seq(0,300,20))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "black"),
+        plot.title = element_text(hjust=0.5),
+        axis.text = element_text(size = 11), 
+        axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.title = element_text(size = 12),
+        legend.text = element_text(size = 11))
+
+```
+
+
+## 6.Summary Tables - Min and max of variables by station
+
+```{r minmaxtables, message = FALSE, warning = FALSE}
+# All database data
+WQ.overall <- phys_yolo %>%
+  group_by(StationCode) %>%
+  summarize(min.temp = min(WaterTemp, na.rm=T),
+            max.temp = max(WaterTemp, na.rm=T),
+            min.Conductivity = min(Conductivity, na.rm=T),
+            max.Conductivity = max(Conductivity,na.rm=T),
+            min.SPC = min(SpecificConductance,na.rm=T),
+            max.SPC = max(SpecificConductance,na.rm=T),
+            min.Secchi = min(Secchi,na.rm=T),
+            max.Secchi = max(Secchi,na.rm=T),
+            min.Turbidity = min(Turbidity,na.rm=T),
+            max.Turbidity = max(Turbidity,na.rm=T),
+            min.pH = min(pH,na.rm=T),
+            max.pH = max(pH,na.rm=T),
+            min.DO = min(DO,na.rm=T),
+            max.DO = max(DO,na.rm=T),
+            n = n()) 
+
+kable(t(WQ.overall)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+```
+
+## 7. Dot plots
+```{r}
+WQ_long <- pivot_longer(phys_yolo, cols = c(WaterTemp:Turbidity),names_to = "Parameter", values_to = "Value") %>%
+  mutate(Index = 1:nrow(.))
+```
+
+```{r WQ Plot, message = FALSE, warning = FALSE}
+WQ_plots <- WQ_long %>%
+  ggplot(aes(x= Datetime, y = Value, color = StationCode, text = paste("Index:", Index, "PhysicalDataID:", PhysicalDataID))) + geom_point(size = 0.5) +  facet_wrap(~Parameter, scales = "free")
+ggplotly(WQ_plots)
+```
+
+
+##8. More Plots
+
+```{r Yolo temperature plots, warning = FALSE, message = FALSE}
+Yearbox(phys_yolo, WaterTemp)
+Monthbox(phys_yolo,WaterTemp)
+VisHist(phys_yolo, WaterTemp, 5)
+
+Yearbox(phys_yolo, Secchi)
+Monthbox(phys_yolo,Secchi)
+VisHist(phys_yolo, Secchi, 0.5)
+
+Yearbox(phys_yolo, Turbidity)
+Monthbox(phys_yolo,Turbidity)
+VisHist(phys_yolo, Turbidity, 20)
+
+Yearbox(phys_yolo, DO)
+Monthbox(phys_yolo,DO)
+VisHist(phys_yolo, DO, 1)
+
+Yearbox(phys_yolo, Conductivity)
+Monthbox(phys_yolo,Conductivity)
+VisHist(phys_yolo, Conductivity, 20)
+
+Yearbox(phys_yolo, SpCnd)
+Monthbox(phys_yolo,SpCnd)
+VisHist(phys_yolo, SpCnd, 20)
+
+Yearbox(phys_yolo, pH)
+Monthbox(phys_yolo,pH)
+VisHist(phys_yolo, pH, 1)
+
+```
+
+
+##9. Correlation Plots: TurbidityxSecchi, DOxTemp, ConductivityxSpCnd
+```{r Correlations, message = FALSE, warning = FALSE}
+sec.tur <- corrplots(phys_yolo, Secchi, Turbidity)
+do.temp <- corrplots(phys_yolo, WaterTemp, DO)
+ec.spc <- corrplots(phys_yolo, Conductivity, SpecificConductance)
+grid.arrange(sec.tur, do.temp, ec.spc)
+```
+
+
+
+## 10. QC data
+
+Outlier checking - here is some code I have been considering for our fish data, but I am not currently using this to make any decisions on flagging.
+```{r}
+library(ODWGtools)
+Outliers0 <- WQ_long %>%
+  group_by(StationCode, Parameter) %>%
+  arrange(StationCode, Datetime, Parameter) %>%
+  mutate(Tukey = outlier_tukey(Value, na.rm = TRUE),
+         MAD = outlier_mad(Value, mask = !is.na(Value)),
+         Tukey_num = ifelse(Tukey == "extreme outlier", 2L, ifelse(Tukey == "mild outlier", 1L, ifelse(Tukey == "not outlier", 0L, Tukey))),
+         MAD_num = ifelse(MAD == "extreme outlier", 2L, ifelse(MAD == "mild outlier", 1L, ifelse(MAD == "not outlier", 0L, MAD))),
+         lag = difftime(Datetime, lag(Datetime), units = "days"))%>%
+  ungroup() 
+```
+
+
+Visual identification checks 
+```{r QC, warning = FALSE, message = FALSE}
+# Edits to data
+to_drop <- c(1575, 1631, 1632, 1722, 1724, 1867, 1308, 748)
+
+# To change
+phys_yolo$WaterTemp[phys_yolo$PhysicalDataID == 688] <- 16.7 # Was Fahrenheit
+phys_yolo$WaterTemp[phys_yolo$WaterTemp == 0.169] <- 16.9 # Decimal place
+phys_yolo$Turbidity[phys_yolo$PhysicalDataID==680] <- 15.4 # Typo
+phys_yolo$Turbidity[phys_yolo$PhysicalDataID==656] <- 94.2 # Typo
+phys_yolo$Conductivity[phys_yolo$PhysicalDataID==748] <- 732 # Typo
+phys_yolo$Conductivity[phys_yolo$PhysicalDataID==926] <- 1284 # Typo
+phys_yolo$Conductivity[phys_yolo$PhysicalDataID==1847] <- 170 # Typo
+phys_yolo$SpecificConductance[phys_yolo$PhysicalDataID==1140] <- 848 # Typo
+phys_yolo$SpecificConductance[phys_yolo$PhysicalDataID==1139] <- 889 # Typo
+phys_yolo$SpecificConductance[phys_yolo$PhysicalDataID==1847] <- 101 # Typo
+phys_yolo$Secchi[phys_yolo$PhysicalDataID==708] <- NA # Previously 0, but actually was not taken
+phys_yolo$Secchi[phys_yolo$PhysicalDataID==708] <- NA # Previously 0, but actually was not taken
+phys_yolo$DO[phys_yolo$PhysicalDataID==1409] <- NA # Previously 0, but actually was not taken
+phys_yolo$pH[phys_yolo$PhysicalDataID==1501] <- 7.92 # Typo
+
+
+# One entry was not entered
+phys_yolo$StationCode[phys_yolo$PhysicalDataID==1752] <- "STTD"
+phys_yolo$Conductivity[phys_yolo$PhysicalDataID==1752] <- 530
+phys_yolo$SpecificConductance[phys_yolo$PhysicalDataID==1752] <- 563
+phys_yolo$Turbidity[phys_yolo$PhysicalDataID==1752] <- 16.5
+phys_yolo$Tide[phys_yolo$PhysicalDataID==1752] <- "Ebb"
+phys_yolo$Date[phys_yolo$PhysicalDataID==1752] <-as.Date("2018-09-27", format = "%Y-%m-%d")
+phys_yolo$pH[phys_yolo$PhysicalDataID==1752] <- 8.13
+
+# Formatting
+# phys_yolo$Time[phys_yolo$PhysicalDataID==401] <- hms("13:22:00")
+# phys_yolo$Time[phys_yolo$PhysicalDataID==1602] <- hms("13:50:00")
+
+# Remove rows with no data
+phys_yolo <- phys_yolo%>%
+  filter(!PhysicalDataID %in% to_drop)
+```
+
+
+## 11. Flag Data
+* Flag data 
+* 3: Replaced (above changes, mostly typos)
+* 2: Suspect data, based on plots, but not out of the realm of possibility, not confirmed in field data
+* blank: Pass
+* Include comment to say which variable is flagged/replaced.
+```{r Flag, message = FALSE, warning = FALSE}
+# Lists for flags and flag comments
+# Modified data due to typos
+modified <- c(688, 680, 656, 748, 926, 1847, 1140, 1139, 1847, 708, 1409, 1501, 1818)
+
+# Flagged but not replaced
+flag <-  c(899, 885, 1087, 1090, 1314, 1218, 602, 668, 841, 1187)
+
+# Variable associated with flag
+wtemp <- c(688, 1818)
+turb <- c(680, 656, 885, 668, 841, 1187)
+cond <- c(748, 926, 1847)
+spc <- c(1140, 1139, 1847, 899, 1087)
+sec <- c(708, 1090)
+do <- c(1409, 1314, 1218)
+ph <- c(1501)
+
+# Adding Flag and Comment variables
+phys_yolo_flag <- phys_yolo %>%
+  mutate(Flag_PQC = ifelse(PhysicalDataID %in% modified, 3,
+                           ifelse(PhysicalDataID %in% flag, 2, "")),
+         Comment_PQC = ifelse(PhysicalDataID %in% wtemp, "WTEMP",
+                              ifelse(PhysicalDataID %in% turb, "TURB",
+                                     ifelse(PhysicalDataID %in% cond, "COND",
+                                            ifelse(PhysicalDataID %in% spc, "SPC",
+                                                   ifelse(PhysicalDataID %in% sec, "SECCHI",
+                                                          ifelse(PhysicalDataID %in% do, "DO",
+                                                          ifelse(PhysicalDataID %in% ph, "PH", ""))))))))
+
+phys_yolo_flag$Flag_PQC <- as.factor(phys_yolo_flag$Flag_PQC)
+
+```
+
+## 12. Plot QCed data
+
+```{r Plot edited data, message = FALSE, warning = FALSE, echo = FALSE}
+colors = c("lightslategrey", "goldenrod2", "darksalmon")
+
+phys_yolo_flag_long <- pivot_longer(phys_yolo_flag, cols = c(WaterTemp:Turbidity),names_to = "Parameter", values_to = "Value") %>%
+  mutate(Index = 1:nrow(.))
+
+WQ_outliers <- phys_yolo_flag_long %>%
+ggplot() + 
+  geom_point(aes(Datetime, Value, colour = factor(Flag_PQC), text = PhysicalDataID), size = 1) + 
+  facet_wrap(~Parameter, scales = "free") + 
+  scale_colour_manual(values = c("lightslategrey", "goldenrod2", "darksalmon")) + 
+  theme_bw() 
+WQ_outliers
+ggplotly(WQ_outliers)
+unique(phys_yolo_flag_long$Flag_PQC)
+
+# p.temp <- ggplot(phys_yolo_flag, aes(Date, WaterTemp, col = Flag_PQC)) + geom_point() + labs(y = "Water Temp(C)") + scale_colour_manual(values = cols)+
+#   theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.secchi <- ggplot(phys_yolo_flag, aes(Date, Secchi, col = Flag_PQC)) + geom_point() + labs(y = "Secchi Depth(m)") +
+#  scale_colour_manual(values = cols)+ theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.conductivity <- ggplot(phys_yolo_flag, aes(Date, Conductivity, col = Flag_PQC)) + geom_point() + labs(y = "Conductivity(useimens/cm)") +
+#   theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.spc <- ggplot(phys_yolo_flag, aes(Date, SpecificConductance, col = Flag_PQC)) + geom_point() + labs(y = "SpCnd(useimens/cm)") +
+#   scale_colour_manual(values = cols)+theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.ec <- ggplot(phys_yolo_flag, aes(Date, Conductivity, col = Flag_PQC)) + geom_point() + labs(y = "EC(useimens/cm)") +
+#   scale_colour_manual(values = cols)+theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.pH <- ggplot(phys_yolo_flag, aes(Date, pH, col = Flag_PQC)) + geom_point() + labs(y = "pH") +
+#   scale_colour_manual(values = cols)+theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.do <- ggplot(phys_yolo_flag, aes(Date, DO, col = Flag_PQC)) + geom_point() + labs(y = "DO(mg/L)") +
+#   scale_colour_manual(values = cols)+theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# p.turb <- ggplot(phys_yolo_flag, aes(Date, Turbidity, col = Flag_PQC)) + geom_point() + labs(y = "Turbidity(NTU)") +
+#  scale_colour_manual(values = cols)+ theme_bw() + theme(axis.text = element_text(size = 10), axis.title = element_text(size = 11))
+# 
+# # Arrange plots together
+# grid.arrange(p.temp, p.ec, p.spc, p.secchi, p.turb, p.do, p.pH, ncol = 2)
+
+
+```
+
+
+## 13. Add SAM code
+```{r}
+# Join station
+phys_sta <- left_join(phys_yolo_flag, station_simple, by = "StationCode")  %>%
+  rename(SamplingDate = Date) 
+
+# Join with WDL data. Remove duplicates.
+WDL_phys <- left_join(phys_sta, WDL.s, by = c("StationNumber", "Datetime",  "SamplingDate")) %>%
+  arrange(Datetime, StationCode) %>%
+  filter(SampleType %in% c(NA, "Normal Sample"))
+
+# Check for multiple entries for given station-datetime
+sampsize <- WDL_phys %>%
+  group_by(StationNumber, Datetime) %>%
+  mutate(n = n()) %>%
+  filter(n>1)
+
+# Remove the second one - they are all the same!
+WDL_phys_slice <- WDL_phys %>%
+  group_by(StationNumber, Datetime) %>%
+  mutate(n = n()) %>%
+  slice(1)%>%
+  select(-StationName, -SAM_Code_Parent, -SampleType, -n) %>%
+  ungroup()
+```
+
+
+## 14. New data QAQC
+
+```{r}
+WQ_longK <- pivot_longer(physK2, cols = c(Secchi:Turbidity),names_to = "Parameter", values_to = "Value") %>%
+  mutate(Index = 1:nrow(.))
+```
+
+```{r WQ Plot, message = FALSE, warning = FALSE}
+WQ_plotsK <- WQ_longK %>%
+  ggplot(aes(x= Datetime, y = Value, color = StationCode, text = paste("Index:", Index, "PhysicalDataID:", PhysicalDataID))) + geom_point(size = 0.5) +  facet_wrap(~Parameter, scales = "free")
+ggplotly(WQ_plotsK)
+```
+
+
+```{r Yolo temperature plots, warning = FALSE, message = FALSE}
+Yearbox(physK2, WaterTemp)
+Monthbox(physK2,WaterTemp)
+VisHist(physK2, WaterTemp, 5)
+
+Yearbox(physK2, Secchi)
+Monthbox(physK2,Secchi)
+VisHist(physK2, Secchi, 0.5)
+
+Yearbox(physK2, Turbidity)
+Monthbox(physK2,Turbidity)
+VisHist(physK2, Turbidity, 20)
+
+Yearbox(physK2, DO)
+Monthbox(physK2,DO)
+VisHist(physK2, DO, 1)
+
+Yearbox(physK2, Conductivity)
+Monthbox(physK2,Conductivity)
+VisHist(physK2, Conductivity, 20)
+
+Yearbox(physK2, SpecificConductance)
+Monthbox(physK2,SpecificConductance)
+VisHist(physK2, SpecificConductance, 20)
+
+Yearbox(physK2, pH)
+Monthbox(physK2,pH)
+VisHist(physK2, pH, 1)
+
+```
+
+```{r}
+sec.tur2 <- corrplots(physK2, Secchi, Turbidity)
+do.temp2 <- corrplots(physK2, WaterTemp, DO)
+ec.spc2 <- corrplots(physK2, Conductivity, SpecificConductance)
+grid.arrange(sec.tur2, do.temp2, ec.spc2)
+```
+
+```{r}
+library(ODWGtools)
+OutliersNew <- WQ_longK %>%
+  group_by(StationCode, Parameter) %>%
+  arrange(StationCode, Datetime, Parameter) %>%
+  mutate(Tukey = outlier_tukey(Value, na.rm = TRUE),
+         MAD = outlier_mad(Value, mask = !is.na(Value)),
+         Tukey_num = ifelse(Tukey == "extreme outlier", 2L, ifelse(Tukey == "mild outlier", 1L, ifelse(Tukey == "not outlier", 0L, Tukey))),
+         MAD_num = ifelse(MAD == "extreme outlier", 2L, ifelse(MAD == "mild outlier", 1L, ifelse(MAD == "not outlier", 0L, MAD))),
+         lag = difftime(Datetime, lag(Datetime), units = "days"))%>%
+  ungroup() 
+
+```
+
+```{r}
+WQ_outliersNewT <- OutliersNew %>%
+ggplot() + 
+  geom_point(aes(Datetime, Value, colour = factor(Tukey_num), text = PhysicalDataID), size = 1) + 
+  facet_wrap(~Parameter, scales = "free") + 
+  scale_colour_manual(values = c("lightslategrey", "goldenrod2", "darksalmon")) + 
+  theme_bw() 
+WQ_outliersNewT
+ggplotly(WQ_outliersNewT)
+
+
+WQ_outliersNewM <- OutliersNew %>%
+ggplot() + 
+  geom_point(aes(Datetime, Value, colour = factor(MAD_num), text = PhysicalDataID), size = 1) + 
+  facet_wrap(~Parameter, scales = "free") + 
+  scale_colour_manual(values = c("lightslategrey", "goldenrod2", "darksalmon")) + 
+  theme_bw() 
+WQ_outliersNewM
+ggplotly(WQ_outliersNewM)
+```
+
+
+Some work needs to be done here to check for outliers for recent data. There is a EC/SPC that looks a bit weird, and some of the turbidities. 
+
+
+## 15. Combine WQ files
+
+```{r}
+alldata <- bind_rows(WDL_phys_slice, physK2)
+```
+
+
+## 16. Select final columns
+```{r}
+WQ_final <- alldata %>%
+  select(SampleCode = SAM_Code, PhysicalDataID, StationCode, StationNumber, Datetime, Date = SamplingDate, Year, Month, Tide, Microcystis, Secchi, WaterTemp, Conductivity, SpecificConductance, DO, pH, Turbidity, Flag_PQC, Comment_PQC)
+```
+
+
+## 17. Replace blanks
+```{r Write file, message = FALSE, warning = FALSE}
+```
+
+
+## 18. Write file
+```{r, eval = FALSE}
+# Write cleaned up file to be used later (merged with zooplankton, etc.)
+today = format(today(),"%Y%m%d")
+write.csv(WQ_final, paste0("data_clean/clean_WQ_phys_", today, ".csv"), row.names = FALSE)
+
+```
+

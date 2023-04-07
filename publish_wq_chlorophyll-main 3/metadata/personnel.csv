@@ -1,0 +1,21 @@
+﻿element,givenName,middleName,surName,organization,electronicMailAddress,orcid,role
+associatedParty,Nicole,,Kwan,California Department of Water Resources,Nicole.Kwan@water.ca.gov ,0000-0003-1178-7788,"Creator, Associate, Data contact, Field crew"
+associatedParty,Jesse,B,Adams,California Department of Water Resources,Jesse.Adams@water.ca.gov ,0000-0002-0739-8782,"Creator, Database Manager, Field crew, Data contact"
+associatedParty,Naoaki,,Ikemiyagi,California Department of Water Resources,Naoaki.Ikemiyagi@water.ca.gov ,,Field crew
+associatedParty,Mackenzie,C,Miner,California Department of Water Resources,Mackenzie.Miner@water.ca.gov,,Field crew
+associatedParty,Lisa,,Vance,California Department of Water Resources,Lisa.Vance@water.ca.gov,,Field crew
+associatedParty,Mallory,,Boro,California Department of Water Resources,Mallory.Bedwell@water.ca.gov,0000-0001-9553-6032,"Creator, Database Manager, Field crew"
+associatedParty,JT,,Robinson,California Department of Water Resources,James.Robinson@water.ca.gov,,Field Crew
+associatedParty,Mitch,,Olinger,California Department of Water Resources,Mitchell.Olinger@water.ca.gov,,Field Crew
+associatedParty,Luke,,Olson,California Department of Water Resources,Luke.Olson@water.ca.gov,,Field Crew
+associatedParty,Allison,,Brady,California Department of Water Resources,Allison.brady@water.ca.gov,,Field Crew
+associatedParty,Parisa ,,Farman,California Department of Water Resources,Parisa.farman@water.ca.gov,,Field Crew
+associatedParty,Emily,,Hubbard,California Department of Water Resources,Emily.hubbard@water.ca.gov,,Field Crew
+associatedParty,Brian,M,Schreier,California Department of Water Resources,Brian.Schreier@water.ca.gov,0000-0002-5075-3946,Associate
+creator,,,Interagency Ecological Program (IEP),,,,Creator
+contact,Nicole,,Kwan,California Department of Water Resources,Nicole.Kwan@water.ca.gov,0000-0003-1178-7788,"Creator, Associate, Data contact, Field crew"
+creator,Nicole,,Kwan,California Department of Water Resources,Nicole.Kwan@water.ca.gov,0000-0003-1178-7788,"Creator, Associate, Data contact, Field crew"
+creator,Jesse,B,Adams,California Department of Water Resources,Jesse.Adams@water.ca.gov ,0000-0002-0739-8782,"Creator, Database Manager, Field crew, Data contact"
+contact,Jesse,B,Adams,California Department of Water Resources,Jesse.Adams@water.ca.gov ,0000-0002-0739-8782,"Creator, Database Manager, Field crew, Data contact"
+creator,Catarina,,Pien,Bureau of Reclamation and California Department of Water Resources,Catarina.Pien@water.ca.gov,0000-0003-4427-6300,"Creator, Database Manager, Field crew"
+creator,Mallory,,Boro,California Department of Water Resources,Mallory.Bedwell@water.ca.gov,0000-0001-9553-6032,"Creator, Database Manager, Field crew"
